@@ -29,7 +29,10 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    Course.h \
+    CourseCode.h \
+    Semester.h
 
 FORMS += \
         mainwindow.ui
