@@ -32,7 +32,9 @@ HEADERS += \
         mainwindow.h \
     Course.h \
     CourseCode.h \
-    Semester.h
+    Semester.h \
+    Edge.h \
+    Relationship.h
 
 FORMS += \
         mainwindow.ui

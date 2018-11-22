@@ -5,6 +5,7 @@
 
 #include "CourseCode.h"
 #include "Semester.h"
+#include "Relationship.h"
 
 class Course {
 private:
@@ -15,15 +16,10 @@ private:
     QString description;
     QString attribute;
 
-    QString exclusionDescription;
-    QString prerequisiteDescription;
-    QString corequisiteDescription;
-    QString colistDescription;
-
-    std::vector<Course*> exclusion;
-    std::vector<Course*> prerequisite;
-    std::vector<Course*> corequisite;
-    std::vector<Course*> colist;
+    Relationship exclusion;
+    Relationship prerequisite;
+    Relationship corequisite;
+    Relationship colist;
 
     QString vector;
     CourseCode previousCode;
@@ -39,20 +35,17 @@ public:
     const int& getCredit();
     const QString& getDescription();
     const QString& getAttribute();
-    const QString& getExclusionDescription();
-    const QString& getPrerequisiteDescription();
-    const QString& getCorequisiteDescription();
-    const QString& getColistDescription();
-    const std::vector<Course*>& getExclusion();
-    const std::vector<Course*>& getPrerequisite();
-    const std::vector<Course*>& getCorequisite();
-    const std::vector<Course*>& getColist();
+
+    const Relationship& getExclusion();
+    const Relationship& getPrerequisite();
+    const Relationship& getCorequisite();
+    const Relationship& getColist();
+
     const QString& getVector();
     const CourseCode& getPreviousCode();
     const std::vector<Semester>& getOfferIn();
 
 };
-
 
 
 #endif // COURSE_H
