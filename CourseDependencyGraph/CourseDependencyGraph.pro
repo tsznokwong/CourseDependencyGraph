@@ -26,7 +26,8 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    AVLTree.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -34,7 +35,8 @@ HEADERS += \
     CourseCode.h \
     Semester.h \
     Edge.h \
-    Relationship.h
+    Relationship.h \
+    AVLTree.h
 
 FORMS += \
         mainwindow.ui
