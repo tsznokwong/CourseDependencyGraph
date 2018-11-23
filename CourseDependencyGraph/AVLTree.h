@@ -19,6 +19,7 @@ private:
 		bool operator<(const AVLNode& rhs);
 	};
 	AVLNode* root = nullptr;
+	unsigned int size = 0;
 
 	AVLTree& leftSubtree();
 	AVLTree& rightSubtree();
@@ -33,16 +34,20 @@ private:
 	void updateHeight();
 
 public:
+	struct AVLTreeFindType{
+		bool found;
+		DataType data;
+	};
 	AVLTree() = default;
 	~AVLTree();
 
 	const DataType& max() const;
 	const DataType& min() const;
-	bool contains() const;
-	const DataType& find(const KeyType& key) const;
+	bool contains(const KeyType& key) const;
+	const AVLTreeFindType& find(const KeyType& key) const;
 	void add(const KeyType& key, const DataType& data);
 	bool remove(const KeyType& key);
-	int size();
+	unsigned int getSize();
 	bool empty();
 	void toVector(vector<DataType>& vector) const;
 };
