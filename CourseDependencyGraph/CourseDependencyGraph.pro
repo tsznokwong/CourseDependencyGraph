@@ -30,14 +30,16 @@ SOURCES += \
     Semester.cpp \
     Relationship.cpp \
     CourseCode.cpp \
-    Course.cpp
+    Course.cpp \
+    CSVLoader.cpp
 
 HEADERS += \
         mainwindow.h \
     Course.h \
     CourseCode.h \
     Semester.h \
-    Relationship.h
+    Relationship.h \
+    CSVLoader.h
 
 FORMS += \
         mainwindow.ui
@@ -46,3 +48,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources.qrc
