@@ -30,14 +30,16 @@ SOURCES += \
     Semester.cpp \
     Relationship.cpp \
     CourseCode.cpp \
-    Course.cpp
+    Course.cpp \
+    CSVLoader.cpp
 
 HEADERS += \
         mainwindow.h \
     Course.h \
     CourseCode.h \
     Semester.h \
-    Relationship.h
+    Relationship.h \
+    CSVLoader.h
 
 FORMS += \
         mainwindow.ui
