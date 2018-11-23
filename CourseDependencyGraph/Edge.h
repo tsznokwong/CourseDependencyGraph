@@ -15,7 +15,7 @@ public:
 
     // getter
     const Relationship::Type& getType();
-    const Course*& getCourse();
+    const Course* const & getCourse();
 };
 
 

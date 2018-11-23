@@ -29,7 +29,9 @@ SOURCES += \
         mainwindow.cpp \
     Semester.cpp \
     Relationship.cpp \
-    CourseCode.cpp
+    CourseCode.cpp \
+    Edge.cpp \
+    Course.cpp
 
 HEADERS += \
         mainwindow.h \
