@@ -26,14 +26,17 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    Semester.cpp \
+    Relationship.cpp \
+    CourseCode.cpp \
+    Course.cpp
 
 HEADERS += \
         mainwindow.h \
     Course.h \
     CourseCode.h \
     Semester.h \
-    Edge.h \
     Relationship.h
 
 FORMS += \

@@ -4,7 +4,7 @@
 #include <vector>
 #include <QString>
 
-class Edge;
+class Course;
 
 class Relationship {
 public:
@@ -13,14 +13,14 @@ public:
     };
 private:
     Type type;
-    std::vector<Edge> edges;
+    std::vector<Course*> edges;
     QString description;
 public:
     Relationship(Type type, QString description);
 
     // getter
     const Type& getType();
-    const std::vector<Edge>& getEdges();
+    const std::vector<Course*>& getEdges();
     const QString& getDescription();
 };
 
