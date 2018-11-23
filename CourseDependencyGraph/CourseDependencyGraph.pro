@@ -30,7 +30,6 @@ SOURCES += \
     Semester.cpp \
     Relationship.cpp \
     CourseCode.cpp \
-    Edge.cpp \
     Course.cpp
 
 HEADERS += \
@@ -38,7 +37,6 @@ HEADERS += \
     Course.h \
     CourseCode.h \
     Semester.h \
-    Edge.h \
     Relationship.h
 
 FORMS += \
