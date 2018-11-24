@@ -27,6 +27,7 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
+    AVLTree.cpp \
     Semester.cpp \
     Relationship.cpp \
     CourseCode.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     Course.h \
     CourseCode.h \
     Semester.h \
+    AVLTree.h \
     Relationship.h \
     CSVLoader.h
 
