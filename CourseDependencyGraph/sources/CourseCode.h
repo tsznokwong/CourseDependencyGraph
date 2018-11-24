@@ -18,6 +18,14 @@ public:
     const QString& getExtension() const;
 
     QString description() const;
+
+    // operator overload
+    bool operator==(const CourseCode& rhs) const;
+    bool operator>(const CourseCode& rhs) const;
+    bool operator>=(const CourseCode& rhs) const;
+    bool operator<(const CourseCode& rhs) const;
+    bool operator<=(const CourseCode& rhs) const;
+
 };
 
 

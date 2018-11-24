@@ -15,3 +15,19 @@ const QString& CourseCode::getExtension() const { return this->extension; }
 QString CourseCode::description() const {
     return this->subject + QString::number(this->code) + this->extension;
 }
+
+bool CourseCode::operator==(const CourseCode& rhs) const {
+    return this->description() == rhs.description();
+}
+bool CourseCode::operator>(const CourseCode& rhs) const {
+    return this->description() > rhs.description();
+}
+bool CourseCode::operator>=(const CourseCode& rhs) const {
+    return this->description() >= rhs.description();
+}
+bool CourseCode::operator<(const CourseCode& rhs) const {
+    return this->description() < rhs.description();
+}
+bool CourseCode::operator<=(const CourseCode& rhs) const {
+    return this->description() <= rhs.description();
+}
