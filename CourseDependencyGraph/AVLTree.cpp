@@ -1,8 +1,18 @@
 #include "AVLTree.h"
+#include <iostream>
 
 #define DataPair KeyType, DataType
 #define AVLTreeTemplate template<typename KeyType, typename DataType>
 
+AVLTreeTemplate
+bool AVLTree<DataPair>::AVLNode::operator<(const AVLTree<DataPair>::AVLNode& rhs){
+	return this->key < rhs.key;
+}
+
+AVLTreeTemplate
+AVLTree<DataPair>::AVLNode::~AVLNode(){
+
+}
 
 AVLTreeTemplate
 AVLTree<DataPair>& AVLTree<DataPair>::leftSubtree(){
@@ -16,18 +26,20 @@ AVLTree<DataPair>& AVLTree<DataPair>::rightSubtree(){
 
 AVLTreeTemplate
 const AVLTree<DataPair>& AVLTree<DataPair>::leftSubtree() const{
-	return leftSubtree();
+	return root->left;
 }
 
 AVLTreeTemplate
 const AVLTree<DataPair>& AVLTree<DataPair>::rightSubtree() const{
-	return rightSubtree();
+	return root->right;
 }
 
 AVLTreeTemplate
 int AVLTree<DataPair>::height() const{
+	if (empty()) return -1;
 	return root->height;
 }
+
 
 AVLTreeTemplate
 int AVLTree<DataPair>::bfactor() const{
@@ -38,9 +50,11 @@ AVLTreeTemplate
 void AVLTree<DataPair>::rotateL(){
 	AVLNode* rightNode = rightSubtree().root;
 	rightSubtree() = rightNode->left;
+	size = 1 + leftSubtree().size + rightSubtree().size;
 	rightNode->left = *this;
 	updateHeight();
 	this->root = rightNode;
+	size = 1 + leftSubtree().size + rightSubtree().size;
 	updateHeight();
 }
 
@@ -48,9 +62,11 @@ AVLTreeTemplate
 void AVLTree<DataPair>::rotateR(){
 	AVLNode* leftNode = leftSubtree().root;
 	leftSubtree() = leftNode->right;
-	leftNode->left = *this;
+	size = 1 + leftSubtree().size + rightSubtree().size;
+	leftNode->right = *this;
 	updateHeight();
 	this->root = leftNode;
+	size = 1 + leftSubtree().size + rightSubtree().size;
 	updateHeight();
 }
 
@@ -93,25 +109,26 @@ void AVLTree<DataPair>::updateHeight(){
 	if (this->empty()){
 		return;
 	}
-	updateHeight(leftSubtree());
-	updateHeight(rightSubtree());
-	this->height() = std::max(leftSubtree().height(), rightSubtree().height()) + 1;
+	leftSubtree().updateHeight();
+	rightSubtree().updateHeight();
+	root->height = std::max(leftSubtree().height(), rightSubtree().height()) + 1;
 }
 
 AVLTreeTemplate
-AVLTree<DataPair>::~AVLTree<DataPair>(){
+AVLTree<DataPair>::~AVLTree(){
 	delete root;
 }
 
 AVLTreeTemplate
-const DataType& AVLTree<DataPair>::max() const{
-	if (rightSubtree().empty()) return root->data;
+const typename AVLTree<DataPair>::AVLNode& AVLTree<DataPair>::max() const{
+	if (rightSubtree().empty()) return *root;
 	else return rightSubtree().max();
 }
 
 AVLTreeTemplate
-const DataType& AVLTree<DataPair>::min() const{
-	if (leftSubtree().empty()) return root->data;
+
+const typename AVLTree<DataPair>::AVLNode& AVLTree<DataPair>::min() const{
+	if (leftSubtree().empty()) return *root;
 	else return leftSubtree().min();
 }
 
@@ -139,13 +156,54 @@ const typename AVLTree<DataPair>::AVLTreeFindType& AVLTree<DataPair>::find(const
 }
 
 AVLTreeTemplate
-void AVLTree<DataPair>::add(const KeyType& key, const DataType& data){
-
+bool AVLTree<DataPair>::add(const KeyType& key, const DataType& data){
+	bool success = false;
+	if (this->empty()){
+		root = new AVLNode(key, data);
+		success = true;
+	}
+	else if (key < root->key)
+		success = leftSubtree().add(key, data);
+	else if (key > root->key)
+		success = rightSubtree().add(key, data);
+	if (success)
+		++size;
+	balance();
+	return success;
 }
 
 AVLTreeTemplate
 bool AVLTree<DataPair>::remove(const KeyType& key){
-
+	bool success = false;
+	if (empty()) return false;
+	if (key < root->key) success = leftSubtree().remove(key);
+	else if (key > root->key) success = rightSubtree().remove(key);
+	else{
+		AVLTree& left = leftSubtree();
+		AVLTree& right = rightSubtree();
+		if (!left.empty() && !right.empty()){
+			root->key = rightSubtree().min().key;
+			root->data = rightSubtree().min().data;
+			success = rightSubtree().remove(root->key);
+		}
+		else if (left.empty()){
+			AVLNode* oldroot = root;
+			this->root = rightSubtree().root;
+			oldroot->right.root = nullptr;
+			delete oldroot;
+			success = true;
+		}
+		else{
+			AVLNode* oldroot = root;
+			this->root = leftSubtree().root;
+			oldroot->left.root = nullptr;
+			delete oldroot;
+			success = true;
+		}
+	}
+	balance();
+	this->size = this->empty()? 0: (leftSubtree().size + rightSubtree().size + 1);
+	return success;
 }
 
 AVLTreeTemplate
@@ -154,8 +212,8 @@ unsigned int AVLTree<DataPair>::getSize(){
 }
 
 AVLTreeTemplate
-bool AVLTree<DataPair>::empty(){
-	return size == 0;
+bool AVLTree<DataPair>::empty() const{
+	return root == nullptr;
 }
 
 AVLTreeTemplate
@@ -167,4 +225,15 @@ void AVLTree<DataPair>::toVector(vector<DataType>& vector) const{
 	if (!rightSubtree().empty()){
 		rightSubtree().toVector(vector);
 	}
+}
+
+AVLTreeTemplate
+void AVLTree<DataPair>::print(int depth) const{
+	if (empty()) return;
+	rightSubtree().print(depth+1);
+	for (int i = 0; i < depth; ++i){
+		cout << '\t';
+	}
+	cout << root->data << endl;
+	leftSubtree().print(depth+1);
 }

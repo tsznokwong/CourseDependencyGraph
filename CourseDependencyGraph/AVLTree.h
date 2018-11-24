@@ -41,15 +41,16 @@ public:
 	AVLTree() = default;
 	~AVLTree();
 
-	const DataType& max() const;
-	const DataType& min() const;
+	const AVLNode& max() const;
+	const AVLNode& min() const;
 	bool contains(const KeyType& key) const;
 	const AVLTreeFindType& find(const KeyType& key) const;
-	void add(const KeyType& key, const DataType& data);
+	bool add(const KeyType& key, const DataType& data);
 	bool remove(const KeyType& key);
 	unsigned int getSize();
-	bool empty();
+	bool empty() const;
 	void toVector(vector<DataType>& vector) const;
+	void print(int depth = 0) const;
 };
 
 #endif // AVLTREE_H
