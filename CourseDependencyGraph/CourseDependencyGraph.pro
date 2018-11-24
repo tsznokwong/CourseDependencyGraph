@@ -27,16 +27,21 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    AVLTree.cpp
+    AVLTree.cpp \
+    Semester.cpp \
+    Relationship.cpp \
+    CourseCode.cpp \
+    Course.cpp \
+    CSVLoader.cpp
 
 HEADERS += \
         mainwindow.h \
     Course.h \
     CourseCode.h \
     Semester.h \
-    Edge.h \
+    AVLTree.h \
     Relationship.h \
-    AVLTree.h
+    CSVLoader.h
 
 FORMS += \
         mainwindow.ui
@@ -45,3 +50,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources.qrc

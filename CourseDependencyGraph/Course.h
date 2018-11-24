@@ -27,7 +27,18 @@ private:
 
 
 public:
-    Course();
+    Course(CourseCode courseCode,
+           QString title,
+           int credit,
+           QString description,
+           QString attribute,
+           QString exclusion,
+           QString prerequisite,
+           QString corequisite,
+           QString colist,
+           QString vector,
+           CourseCode previousCode,
+           std::vector<Semester> offerIn);
 
     // getter
     const CourseCode& getCourseCode();
