@@ -13,11 +13,11 @@ public:
     CourseCode(QString subject, int code, QString extension = "");
 
     // getter
-    const QString& getSubject();
-    const int& getCode();
-    const QString& getExtension();
+    const QString& getSubject() const;
+    const int& getCode() const;
+    const QString& getExtension() const;
 
-    QString description();
+    QString description() const;
 };
 
 

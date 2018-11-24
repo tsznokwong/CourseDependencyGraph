@@ -28,17 +28,17 @@ Course::Course(CourseCode courseCode,
 
 }
 
-const CourseCode& Course::getCourseCode() { return this->courseCode; }
-const QString& Course::getTitle() { return this->title; }
-const int& Course::getCredit() { return this->credit; }
-const QString& Course::getDescription() { return this->description; }
-const QString& Course::getAttribute() { return this->attribute; }
+const CourseCode& Course::getCourseCode() const { return this->courseCode; }
+const QString& Course::getTitle() const { return this->title; }
+const int& Course::getCredit() const { return this->credit; }
+const QString& Course::getDescription() const { return this->description; }
+const QString& Course::getAttribute() const { return this->attribute; }
 
-const Relationship& Course::getExclusion() { return this->exclusion; }
-const Relationship& Course::getPrerequisite() { return this->prerequisite; }
-const Relationship& Course::getCorequisite() { return this->corequisite; }
-const Relationship& Course::getColist() { return this->colist; }
+const Relationship& Course::getExclusion() const { return this->exclusion; }
+const Relationship& Course::getPrerequisite() const { return this->prerequisite; }
+const Relationship& Course::getCorequisite() const { return this->corequisite; }
+const Relationship& Course::getColist() const { return this->colist; }
 
-const QString& Course::getVector() { return this->vector; }
-const CourseCode& Course::getPreviousCode() { return this->previousCode; }
-const std::vector<Semester>& Course::getOfferIn() { return this->offerIn; }
+const QString& Course::getVector() const { return this->vector; }
+const CourseCode& Course::getPreviousCode() const { return this->previousCode; }
+const std::vector<Semester>& Course::getOfferIn() const { return this->offerIn; }

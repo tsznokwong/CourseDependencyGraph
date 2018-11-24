@@ -12,10 +12,10 @@ public:
     Semester(QString year, QString season);
 
     // getter
-    const QString& getYear();
-    const QString& getSeason();
+    const QString& getYear() const;
+    const QString& getSeason() const;
 
-    QString description();
+    QString description() const;
 
 };
 

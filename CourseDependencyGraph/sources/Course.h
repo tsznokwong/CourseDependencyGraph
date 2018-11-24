@@ -41,20 +41,20 @@ public:
            std::vector<Semester> offerIn);
 
     // getter
-    const CourseCode& getCourseCode();
-    const QString& getTitle();
-    const int& getCredit();
-    const QString& getDescription();
-    const QString& getAttribute();
+    const CourseCode& getCourseCode() const;
+    const QString& getTitle() const;
+    const int& getCredit() const;
+    const QString& getDescription() const;
+    const QString& getAttribute() const;
 
-    const Relationship& getExclusion();
-    const Relationship& getPrerequisite();
-    const Relationship& getCorequisite();
-    const Relationship& getColist();
+    const Relationship& getExclusion() const;
+    const Relationship& getPrerequisite() const;
+    const Relationship& getCorequisite() const;
+    const Relationship& getColist() const;
 
-    const QString& getVector();
-    const CourseCode& getPreviousCode();
-    const std::vector<Semester>& getOfferIn();
+    const QString& getVector() const;
+    const CourseCode& getPreviousCode() const;
+    const std::vector<Semester>& getOfferIn() const;
 
 };
 

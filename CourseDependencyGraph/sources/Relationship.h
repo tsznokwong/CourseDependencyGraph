@@ -19,9 +19,9 @@ public:
     Relationship(Type type, QString description);
 
     // getter
-    const Type& getType();
-    const std::vector<Course*>& getEdges();
-    const QString& getDescription();
+    const Type& getType() const;
+    const std::vector<Course*>& getEdges() const;
+    const QString& getDescription() const;
 };
 
 #endif // RELATIONSHIP_H

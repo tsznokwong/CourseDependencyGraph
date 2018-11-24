@@ -7,9 +7,9 @@ Semester::Semester(QString year, QString season):
 
 }
 
-const QString& Semester::getYear() { return this->year; }
-const QString& Semester::getSeason() { return this->season; }
+const QString& Semester::getYear() const { return this->year; }
+const QString& Semester::getSeason() const { return this->season; }
 
-QString Semester::description() {
+QString Semester::description() const {
     return this->year + " " + this->season;
 }

@@ -7,6 +7,6 @@ Relationship::Relationship(Type type, QString description):
 
 }
 
-const Relationship::Type& Relationship::getType() { return this->type; }
-const std::vector<Course*>& Relationship::getEdges() { return this->edges; }
-const QString& Relationship::getDescription() { return this->description; }
+const Relationship::Type& Relationship::getType() const { return this->type; }
+const std::vector<Course*>& Relationship::getEdges() const { return this->edges; }
+const QString& Relationship::getDescription() const { return this->description; }
