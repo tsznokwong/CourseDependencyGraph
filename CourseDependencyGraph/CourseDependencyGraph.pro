@@ -26,25 +26,25 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
-    AVLTree.cpp \
-    Semester.cpp \
-    Relationship.cpp \
-    CourseCode.cpp \
-    Course.cpp \
-    CSVLoader.cpp
+        ui/mainwindow.cpp \
+    sources/AVLTree.cpp \
+    sources/Semester.cpp \
+    sources/Relationship.cpp \
+    sources/CourseCode.cpp \
+    sources/Course.cpp \
+    utilities/CSVLoader.cpp
 
 HEADERS += \
-        mainwindow.h \
-    Course.h \
-    CourseCode.h \
-    Semester.h \
-    AVLTree.h \
-    Relationship.h \
-    CSVLoader.h
+        ui/mainwindow.h \
+    sources/Course.h \
+    sources/CourseCode.h \
+    sources/Semester.h \
+    sources/AVLTree.h \
+    sources/Relationship.h \
+    utilities/CSVLoader.h
 
 FORMS += \
-        mainwindow.ui
+        ui/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
