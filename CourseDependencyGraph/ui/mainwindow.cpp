@@ -3,9 +3,11 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
-{
+    ui(new Ui::MainWindow),
+    dependencyManager() {
     ui->setupUi(this);
+
+    this->dependencyManager.loadCSV();
 }
 
 MainWindow::~MainWindow()
