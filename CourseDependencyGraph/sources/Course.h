@@ -22,7 +22,7 @@ private:
     Relationship colist;
 
     QString vector;
-    CourseCode previousCode;
+    QString previousCode;
     std::vector<Semester> offerIn;
 
 
@@ -37,7 +37,7 @@ public:
            QString corequisite,
            QString colist,
            QString vector,
-           CourseCode previousCode,
+           QString previousCode,
            std::vector<Semester> offerIn);
 
     // getter
@@ -53,7 +53,7 @@ public:
     const Relationship& getColist() const;
 
     const QString& getVector() const;
-    const CourseCode& getPreviousCode() const;
+    const QString& getPreviousCode() const;
     const std::vector<Semester>& getOfferIn() const;
 
 };

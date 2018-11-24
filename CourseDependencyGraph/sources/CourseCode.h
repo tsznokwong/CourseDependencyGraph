@@ -10,6 +10,7 @@ private:
     QString extension;
 
 public:
+    CourseCode() = default;
     CourseCode(QString subject, int code, QString extension = "");
 
     // getter

@@ -11,7 +11,7 @@ Course::Course(CourseCode courseCode,
                QString corequisite,
                QString colist,
                QString vector,
-               CourseCode previousCode,
+               QString previousCode,
                std::vector<Semester> offerIn):
     courseCode(courseCode),
     title(title),
@@ -40,5 +40,5 @@ const Relationship& Course::getCorequisite() const { return this->corequisite; }
 const Relationship& Course::getColist() const { return this->colist; }
 
 const QString& Course::getVector() const { return this->vector; }
-const CourseCode& Course::getPreviousCode() const { return this->previousCode; }
+const QString& Course::getPreviousCode() const { return this->previousCode; }
 const std::vector<Semester>& Course::getOfferIn() const { return this->offerIn; }
