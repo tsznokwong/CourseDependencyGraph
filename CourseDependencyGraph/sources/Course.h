@@ -2,6 +2,7 @@
 #define COURSE_H
 
 #include <vector>
+#include <iostream>
 
 #include "CourseCode.h"
 #include "Semester.h"
@@ -56,6 +57,8 @@ public:
     const QString& getPreviousCode() const;
     const std::vector<Semester>& getOfferIn() const;
 
+    // stream operator
+    friend std::ostream& operator<<(std::ostream &os, const Course& course);
 };
 
 

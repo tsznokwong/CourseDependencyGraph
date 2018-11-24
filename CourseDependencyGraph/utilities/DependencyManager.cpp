@@ -4,7 +4,8 @@
 #include "DependencyManager.h"
 #include "CSVLoader.h"
 
-DependencyManager::DependencyManager() {
+DependencyManager::DependencyManager():
+    courses() {
 
 }
 
@@ -74,21 +75,21 @@ void DependencyManager::loadCSV() {
                     offerIn.push_back(semester);
                 }
             }
-            Course course { CourseCode(subject, code, extension),
-                            title,
-                            credit,
-                            description,
-                            attribute,
-                            exclusion,
-                            prerequisite,
-                            corequisite,
-                            colist,
-                            vector,
-                            previousCode,
-                            offerIn };
         }
+        Course course { CourseCode(subject, code, extension),
+                        title,
+                        credit,
+                        description,
+                        attribute,
+                        exclusion,
+                        prerequisite,
+                        corequisite,
+                        colist,
+                        vector,
+                        previousCode,
+                        offerIn };
+        this->courses.add(course.getCourseCode(), course);
 
     }
-
     delete courseData;
 }

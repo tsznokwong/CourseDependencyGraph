@@ -42,3 +42,7 @@ const Relationship& Course::getColist() const { return this->colist; }
 const QString& Course::getVector() const { return this->vector; }
 const QString& Course::getPreviousCode() const { return this->previousCode; }
 const std::vector<Semester>& Course::getOfferIn() const { return this->offerIn; }
+
+std::ostream& operator<<(std::ostream &os, const Course& course) {
+    return os << course.getCourseCode().description().toStdString();
+}
