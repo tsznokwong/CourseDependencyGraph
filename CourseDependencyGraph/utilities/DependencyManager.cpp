@@ -89,7 +89,6 @@ void DependencyManager::loadCSV() {
                         previousCode,
                         offerIn };
         this->courses.add(course.getCourseCode(), course);
-
     }
     delete courseData;
 }

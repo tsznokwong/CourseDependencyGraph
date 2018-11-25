@@ -33,7 +33,8 @@ SOURCES += \
     sources/CourseCode.cpp \
     sources/Course.cpp \
     utilities/CSVLoader.cpp \
-    utilities/DependencyManager.cpp
+    utilities/DependencyManager.cpp \
+    sources/AVLTree.tpp
 
 HEADERS += \
         ui/mainwindow.h \
