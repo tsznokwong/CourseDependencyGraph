@@ -19,7 +19,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    DependencyManager dependencyManager;
+    DependencyManager *dependencyManager;
 };
 
 #endif // MAINWINDOW_H
