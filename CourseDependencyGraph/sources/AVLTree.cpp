@@ -221,6 +221,17 @@ bool AVLTree<DataPair>::empty() const{
 }
 
 AVLTreeTemplate
+void AVLTree<DataPair>::toKeyVector(vector<KeyType>& vector) const{
+	if (!leftSubtree().empty()){
+		leftSubtree().toKeyVector(vector);
+	}
+	vector.push_back(root->key);
+	if (!rightSubtree().empty()){
+		rightSubtree().toVector(vector);
+	}
+}
+
+AVLTreeTemplate
 void AVLTree<DataPair>::toVector(vector<DataType>& vector) const{
 	if (!leftSubtree().empty()){
 		leftSubtree().toVector(vector);
