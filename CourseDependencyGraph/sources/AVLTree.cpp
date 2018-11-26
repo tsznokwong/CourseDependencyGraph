@@ -252,3 +252,4 @@ void AVLTree<DataPair>::print(int depth) const{
 	cout << root->data << endl;
 	leftSubtree().print(depth+1);
 }
+

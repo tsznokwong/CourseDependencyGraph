@@ -76,22 +76,36 @@ void DependencyManager::loadCSV() {
                 }
             }
         }
-        Course course { CourseCode(subject, code, extension),
-                        title,
-                        credit,
-                        description,
-                        attribute,
-						exclusion,
-                        prerequisite,
-                        corequisite,
-						colist,
-                        vector,
-                        previousCode,
-						offerIn };
+        Course *course = new Course { CourseCode(subject, code, extension),
+                title,
+                credit,
+                description,
+                attribute,
+                exclusion,
+                prerequisite,
+                corequisite,
+                colist,
+                vector,
+                previousCode,
+                offerIn };
 		if (!this->courses.contains(subject))
-			this->courses.add(subject, new AVLTree<CourseCode, Course>());
-		this->courses.find(subject)->add(course.getCourseCode(), course);
+            this->courses.add(subject, new AVLTree<CourseCode, Course*>());
+        this->courses.find(subject)->add(course->getCourseCode(), course);
 
     }
     delete courseData;
 }
+
+void DependencyManager::linkCourses() {
+    std::vector<QString> subjects;
+    this->courses.toKeyVector(subjects);
+    for (QString subject: subjects) {
+        std::vector<CourseCode> courses;
+        this->courses.find(subject)->toKeyVector(courses);
+        for (CourseCode courseCode: courses) {
+            this->courses.find(subject)->find(courseCode)->linkCourses(this->courses);
+        }
+    }
+}
+
+

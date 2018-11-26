@@ -18,15 +18,28 @@ Relationship::Relationship(Type type, QString description):
             QString code = codeMatch.captured("code");
             QString extension = codeMatch.captured("extension");
             CourseCode courseCode { subject, code.toInt(), extension};
-            this->codes.push_back(courseCode);
+            this->courseCodes.push_back(courseCode);
         }
     }
-    for (CourseCode courseCode: this->codes) {
-        qDebug() << courseCode.description();
-    }
+
 }
 
 const Relationship::Type& Relationship::getType() const { return this->type; }
-const std::vector<Course*>& Relationship::getEdges() const { return this->edges; }
+const std::vector<const Course*>& Relationship::getEdges() const { return this->edges; }
 const QString& Relationship::getDescription() const { return this->description; }
-const std::vector<CourseCode>& Relationship::getCodes() const { return this->codes; }
+const std::vector<CourseCode>& Relationship::getCourseCodes() const { return this->courseCodes; }
+
+void Relationship::linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses) {
+    for (CourseCode courseCode: this->courseCodes) {
+        if (!courses.contains(courseCode.getSubject())) {
+            qDebug() << "Subject Not Found: " << courseCode.getSubject();
+            continue;
+        }
+        if (!courses.find(courseCode.getSubject())->contains(courseCode)) {
+            qDebug() << "Course Code Not Found: " << courseCode.description();
+            continue;
+        }
+        const Course *course = courses.find(courseCode.getSubject())->find(courseCode);
+        this->edges.push_back(course);
+    }
+}
