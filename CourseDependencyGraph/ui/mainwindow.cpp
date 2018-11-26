@@ -21,15 +21,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupTreeView(){
 	ui->treeWidget->setColumnCount(1);
+
 }
 
 void MainWindow::treeViewAddRoot(QString string){
 	QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget);
 	item->setText(0, string);
-	treeViewAddChild(item, "asdfasdfa");
-	treeViewAddChild(item, "asdfasdfa");
-	treeViewAddChild(item, "asdfasdfa");
-	treeViewAddChild(item, "asdfasdfa");
 	ui->treeWidget->addTopLevelItem(item);
 }
 
