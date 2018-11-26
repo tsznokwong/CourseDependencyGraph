@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <QTreeWidgetItem>
 #include "utilities/DependencyManager.h"
 
 namespace Ui {
@@ -20,6 +20,10 @@ public:
 private:
     Ui::MainWindow *ui;
     DependencyManager *dependencyManager;
+
+	void setupTreeView();
+	QTreeWidgetItem* treeViewAddRoot(QString string);
+	void treeViewAddChild(QTreeWidgetItem* parent, QString string);
 };
 
 #endif // MAINWINDOW_H

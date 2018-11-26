@@ -145,11 +145,15 @@ bool AVLTree<DataPair>::contains(const KeyType& key) const{
 }
 
 AVLTreeTemplate
-const typename AVLTree<DataPair>::AVLTreeFindType& AVLTree<DataPair>::find(const KeyType& key) const{
+const DataType& AVLTree<DataPair>::find(const KeyType& key) const{
 	if (key < root->key){
+		if (leftSubtree().empty())
+			return root->data;
 		return leftSubtree().find(key);
 	}
 	if (key > root->key){
+		if (rightSubtree().empty())
+			return root->data;
 		return rightSubtree().find(key);
 	}
 	return root->data;
@@ -214,6 +218,17 @@ unsigned int AVLTree<DataPair>::getSize(){
 AVLTreeTemplate
 bool AVLTree<DataPair>::empty() const{
 	return root == nullptr;
+}
+
+AVLTreeTemplate
+void AVLTree<DataPair>::toKeyVector(vector<KeyType>& vector) const{
+	if (!leftSubtree().empty()){
+		leftSubtree().toKeyVector(vector);
+	}
+	vector.push_back(root->key);
+	if (!rightSubtree().empty()){
+		rightSubtree().toKeyVector(vector);
+	}
 }
 
 AVLTreeTemplate
