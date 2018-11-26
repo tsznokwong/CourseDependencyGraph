@@ -20,6 +20,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::setupTreeView(){
+	ui->treeWidget->setHeaderLabel("Courses");
 	ui->treeWidget->setColumnCount(1);
 
 	vector<QString> subjectVector;
