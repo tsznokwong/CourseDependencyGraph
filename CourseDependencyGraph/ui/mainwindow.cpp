@@ -22,6 +22,11 @@ MainWindow::~MainWindow()
 void MainWindow::setupTreeView(){
 	ui->treeWidget->setColumnCount(1);
 
+	vector<QString> subjectVector;
+	dependencyManager->courses.toKeyVector(subjectVector);
+	for (unsigned int i = 0; i < subjectVector.size(); ++i){
+		treeViewAddRoot(subjectVector[i]);
+	}
 }
 
 void MainWindow::treeViewAddRoot(QString string){
