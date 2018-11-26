@@ -227,7 +227,7 @@ void AVLTree<DataPair>::toKeyVector(vector<KeyType>& vector) const{
 	}
 	vector.push_back(root->key);
 	if (!rightSubtree().empty()){
-		rightSubtree().toVector(vector);
+		rightSubtree().toKeyVector(vector);
 	}
 }
 
