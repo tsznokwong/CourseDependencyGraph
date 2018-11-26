@@ -1,5 +1,5 @@
 
-#include "relationship.h"
+#include "Relationship.h"
 
 Relationship::Relationship(Type type, QString description):
     type(type),
