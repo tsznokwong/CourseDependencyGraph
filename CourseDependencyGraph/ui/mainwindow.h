@@ -22,7 +22,7 @@ private:
     DependencyManager *dependencyManager;
 
 	void setupTreeView();
-	void treeViewAddRoot(QString string);
+	QTreeWidgetItem* treeViewAddRoot(QString string);
 	void treeViewAddChild(QTreeWidgetItem* parent, QString string);
 };
 
