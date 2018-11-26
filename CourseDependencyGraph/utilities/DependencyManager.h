@@ -6,9 +6,9 @@
 
 class DependencyManager {
 private:
-    AVLTree<CourseCode, Course> courses;
 
 public:
+	AVLTree<QString, AVLTree<CourseCode, Course>* > courses;
     DependencyManager();
 
     void loadCSV();

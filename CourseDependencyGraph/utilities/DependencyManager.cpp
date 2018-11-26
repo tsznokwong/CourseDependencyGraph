@@ -81,14 +81,17 @@ void DependencyManager::loadCSV() {
                         credit,
                         description,
                         attribute,
-                        exclusion,
+						exclusion,
                         prerequisite,
                         corequisite,
-                        colist,
+						colist,
                         vector,
                         previousCode,
-                        offerIn };
-        this->courses.add(course.getCourseCode(), course);
+						offerIn };
+		if (!this->courses.contains(subject))
+			this->courses.add(subject, new AVLTree<CourseCode, Course>());
+		this->courses.find(subject)->add(course.getCourseCode(), course);
+
     }
     delete courseData;
 }
