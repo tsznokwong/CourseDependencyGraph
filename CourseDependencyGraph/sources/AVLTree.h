@@ -34,17 +34,13 @@ private:
 	void updateHeight();
 
 public:
-	struct AVLTreeFindType{
-		bool found;
-		DataType data;
-	};
 	AVLTree() = default;
 	~AVLTree();
 
 	const AVLNode& max() const;
 	const AVLNode& min() const;
 	bool contains(const KeyType& key) const;
-	const AVLTreeFindType& find(const KeyType& key) const;
+	const DataType& find(const KeyType& key) const;
 	bool add(const KeyType& key, const DataType& data);
 	bool remove(const KeyType& key);
 	unsigned int getSize();

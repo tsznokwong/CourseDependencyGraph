@@ -145,11 +145,15 @@ bool AVLTree<DataPair>::contains(const KeyType& key) const{
 }
 
 AVLTreeTemplate
-const typename AVLTree<DataPair>::AVLTreeFindType& AVLTree<DataPair>::find(const KeyType& key) const{
+const DataType& AVLTree<DataPair>::find(const KeyType& key) const{
 	if (key < root->key){
+		if (leftSubtree().empty())
+			return root->data;
 		return leftSubtree().find(key);
 	}
 	if (key > root->key){
+		if (rightSubtree().empty())
+			return root->data;
 		return rightSubtree().find(key);
 	}
 	return root->data;
