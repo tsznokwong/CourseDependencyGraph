@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "utilities/DependencyManager.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -17,6 +19,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    DependencyManager *dependencyManager;
 };
 
 #endif // MAINWINDOW_H

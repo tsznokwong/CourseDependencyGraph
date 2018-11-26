@@ -15,7 +15,6 @@ CSVLoader::Data* CSVLoader::load() {
 
     QString fieldLine = stream.readLine();
     data->fields = fieldLine.split(",");
-    data->fields.removeLast();
 
     while (!stream.atEnd()) {
         QString recordLine = stream.readLine();

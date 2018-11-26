@@ -10,6 +10,7 @@ private:
     QString extension;
 
 public:
+    CourseCode() = default;
     CourseCode(QString subject, int code, QString extension = "");
 
     // getter
@@ -18,6 +19,14 @@ public:
     const QString& getExtension() const;
 
     QString description() const;
+
+    // operator overload
+    bool operator==(const CourseCode& rhs) const;
+    bool operator>(const CourseCode& rhs) const;
+    bool operator>=(const CourseCode& rhs) const;
+    bool operator<(const CourseCode& rhs) const;
+    bool operator<=(const CourseCode& rhs) const;
+
 };
 
 

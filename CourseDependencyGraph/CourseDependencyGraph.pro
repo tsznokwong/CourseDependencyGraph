@@ -32,7 +32,9 @@ SOURCES += \
     sources/Relationship.cpp \
     sources/CourseCode.cpp \
     sources/Course.cpp \
-    utilities/CSVLoader.cpp
+    utilities/CSVLoader.cpp \
+    utilities/DependencyManager.cpp \
+    sources/AVLTree.tpp
 
 HEADERS += \
         ui/mainwindow.h \
@@ -41,7 +43,8 @@ HEADERS += \
     sources/Semester.h \
     sources/AVLTree.h \
     sources/Relationship.h \
-    utilities/CSVLoader.h
+    utilities/CSVLoader.h \
+    utilities/DependencyManager.h
 
 FORMS += \
         ui/mainwindow.ui

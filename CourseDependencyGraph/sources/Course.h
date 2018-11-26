@@ -2,6 +2,7 @@
 #define COURSE_H
 
 #include <vector>
+#include <iostream>
 
 #include "CourseCode.h"
 #include "Semester.h"
@@ -22,7 +23,7 @@ private:
     Relationship colist;
 
     QString vector;
-    CourseCode previousCode;
+    QString previousCode;
     std::vector<Semester> offerIn;
 
 
@@ -37,7 +38,7 @@ public:
            QString corequisite,
            QString colist,
            QString vector,
-           CourseCode previousCode,
+           QString previousCode,
            std::vector<Semester> offerIn);
 
     // getter
@@ -53,9 +54,11 @@ public:
     const Relationship& getColist() const;
 
     const QString& getVector() const;
-    const CourseCode& getPreviousCode() const;
+    const QString& getPreviousCode() const;
     const std::vector<Semester>& getOfferIn() const;
 
+    // stream operator
+    friend std::ostream& operator<<(std::ostream &os, const Course& course);
 };
 
 
