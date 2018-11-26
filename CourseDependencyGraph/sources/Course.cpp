@@ -46,3 +46,10 @@ const std::vector<Semester>& Course::getOfferIn() const { return this->offerIn; 
 std::ostream& operator<<(std::ostream &os, const Course& course) {
     return os << course.getCourseCode().description().toStdString();
 }
+
+void Course::linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses) {
+    this->exclusion.linkCourses(courses);
+    this->prerequisite.linkCourses(courses);
+    this->corequisite.linkCourses(courses);
+    this->colist.linkCourses(courses);
+}

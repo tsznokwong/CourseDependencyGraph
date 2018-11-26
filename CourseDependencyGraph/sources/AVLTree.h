@@ -1,6 +1,7 @@
 #ifndef AVLTREE_H
 #define AVLTREE_H
 #include <vector>
+#include <functional>
 using namespace std;
 
 template<typename KeyType, typename DataType>
@@ -47,7 +48,7 @@ public:
 	bool empty() const;
 	void toKeyVector(vector<KeyType>& vector) const;
 	void toVector(vector<DataType>& vector) const;
-	void print(int depth = 0) const;
+    void print(int depth = 0) const;
 };
 
 #endif // AVLTREE_H

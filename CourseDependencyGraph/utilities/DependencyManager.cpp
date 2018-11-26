@@ -40,11 +40,11 @@ void DependencyManager::loadCSV() {
             if (courseData->fields[column] == "SUBJECT") {
                 subject = record[column];
             } else if (courseData->fields[column] == "CODE") {
-                QRegularExpression regex {"(\\d{4})(\\w?)"};
+                QRegularExpression regex {"(?<code>\\d{4})(?<extension>\\w?)"};
                 QRegularExpressionMatch match = regex.match(record[column]);
                 if (match.hasMatch()) {
-                    code = match.captured(1).toInt();
-                    extension = match.captured(2);
+                    code = match.captured("code").toInt();
+                    extension = match.captured("extension");
                 }
             } else if (courseData->fields[column] == "TITLE") {
                 title = record[column];
@@ -67,31 +67,45 @@ void DependencyManager::loadCSV() {
             } else if (courseData->fields[column] == "PREVIOUS CODE") {
                 previousCode = record[column];
             } else if (courseData->fields[column] == "OFFER IN") {
-                QRegularExpression regex {"(\\d{4}-\\d{2}) (Fall|Summer|Spring|Winter)"};
+                QRegularExpression regex {"(?<year>\\d{4}-\\d{2}) (?<season>Fall|Summer|Spring|Winter)"};
                 QRegularExpressionMatchIterator iterator = regex.globalMatch(record[column]);
                 while (iterator.hasNext()) {
                     QRegularExpressionMatch match = iterator.next();
-                    Semester semester { match.captured(1), match.captured(2) };
+                    Semester semester { match.captured("year"), match.captured("season") };
                     offerIn.push_back(semester);
                 }
             }
         }
-        Course course { CourseCode(subject, code, extension),
-                        title,
-                        credit,
-                        description,
-                        attribute,
-						exclusion,
-                        prerequisite,
-                        corequisite,
-						colist,
-                        vector,
-                        previousCode,
-						offerIn };
+        Course *course = new Course { CourseCode(subject, code, extension),
+                title,
+                credit,
+                description,
+                attribute,
+                exclusion,
+                prerequisite,
+                corequisite,
+                colist,
+                vector,
+                previousCode,
+                offerIn };
 		if (!this->courses.contains(subject))
-			this->courses.add(subject, new AVLTree<CourseCode, Course>());
-		this->courses.find(subject)->add(course.getCourseCode(), course);
+            this->courses.add(subject, new AVLTree<CourseCode, Course*>());
+        this->courses.find(subject)->add(course->getCourseCode(), course);
 
     }
     delete courseData;
 }
+
+void DependencyManager::linkCourses() {
+    std::vector<QString> subjects;
+    this->courses.toKeyVector(subjects);
+    for (QString subject: subjects) {
+        std::vector<CourseCode> courses;
+        this->courses.find(subject)->toKeyVector(courses);
+        for (CourseCode courseCode: courses) {
+            this->courses.find(subject)->find(courseCode)->linkCourses(this->courses);
+        }
+    }
+}
+
+

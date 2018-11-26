@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->setupUi(this);
 
     this->dependencyManager->loadCSV();
+    this->dependencyManager->linkCourses();
 
 	setupTreeView();
 }
