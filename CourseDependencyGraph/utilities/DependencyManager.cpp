@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QRegularExpression>
+#include <iostream>
 
 #include "DependencyManager.h"
 #include "CSVLoader.h"
@@ -105,12 +106,14 @@ void DependencyManager::linkCourses() {
         for (CourseCode courseCode: courseCodes) {
             Course* course = this->courses.find(subject)->find(courseCode);
             course->linkCourses(this->courses);
+
             for (Course *targetCourse: course->getPrerequisite().getEdges()) {
                 targetCourse->addAvaiableAfter(course);
             }
             for (Course *targetCourse: course->getExclusion().getEdges()) {
                 targetCourse->addNotAvailableAfter(course);
             }
+
         }
     }
 }

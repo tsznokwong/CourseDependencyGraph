@@ -68,4 +68,23 @@ void Course::linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* >
     this->colist.linkCourses(courses);
 }
 
-
+QString Course::dubugDescription() {
+    QString description = this->courseCode.description() + " "
+            + this->title + " "
+            + "(" + QString::number(this->credit) + ") "
+            + "\n" + this->description
+            + "\n" + this->attribute
+            + "\nExclusion:" + this->exclusion.getDescription()
+            + "\nPrerequisite:" + this->prerequisite.getDescription()
+            + "\nCorequisite:" + this->corequisite.getDescription()
+            + "\nColist:" + this->colist.getDescription()
+            + "\nNot Available After:" + this->notAvailableAfter.getDescription()
+            + "\nAvailable After:" + this->availableAfter.getDescription()
+            + "\nVector:" + this->vector
+            + "\nPrevious Code:" + this->previousCode
+            + "\nOffer In:";
+    for (Semester semester: this->offerIn) {
+        description += semester.description() + " ";
+    }
+    return description;
+}

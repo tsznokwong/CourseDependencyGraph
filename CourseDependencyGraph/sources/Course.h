@@ -66,6 +66,8 @@ public:
     // stream operator
     friend std::ostream& operator<<(std::ostream &os, const Course& course);
 
+    QString dubugDescription();
+
     void addNotAvailableAfter(Course* const course);
     void addAvaiableAfter(Course* const course);
     void linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses);

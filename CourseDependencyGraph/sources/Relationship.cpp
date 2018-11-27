@@ -33,6 +33,7 @@ const std::vector<CourseCode>& Relationship::getCourseCodes() const { return thi
 void Relationship::addEdge(const CourseCode courseCode, Course* const course) {
     this->edges.push_back(course);
     this->courseCodes.push_back(courseCode);
+    this->description += courseCode.description() + " ";
 }
 
 void Relationship::linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses) {
