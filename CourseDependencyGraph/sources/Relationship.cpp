@@ -25,9 +25,16 @@ Relationship::Relationship(Type type, QString description):
 }
 
 const Relationship::Type& Relationship::getType() const { return this->type; }
-const std::vector<const Course*>& Relationship::getEdges() const { return this->edges; }
+const std::vector<Course*>& Relationship::getEdges() const { return this->edges; }
+std::vector<Course*>& Relationship::getEdges() { return this->edges; }
 const QString& Relationship::getDescription() const { return this->description; }
 const std::vector<CourseCode>& Relationship::getCourseCodes() const { return this->courseCodes; }
+
+void Relationship::addEdge(const CourseCode courseCode, Course* const course) {
+    this->edges.push_back(course);
+    this->courseCodes.push_back(courseCode);
+    this->description += courseCode.description() + " ";
+}
 
 void Relationship::linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses) {
     for (CourseCode courseCode: this->courseCodes) {
@@ -39,7 +46,7 @@ void Relationship::linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course
             qDebug() << "Course Code Not Found: " << courseCode.description();
             continue;
         }
-        const Course *course = courses.find(courseCode.getSubject())->find(courseCode);
+        Course *course = courses.find(courseCode.getSubject())->find(courseCode);
         this->edges.push_back(course);
     }
 }

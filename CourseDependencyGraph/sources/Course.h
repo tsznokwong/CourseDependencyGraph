@@ -21,6 +21,8 @@ private:
     Relationship prerequisite;
     Relationship corequisite;
     Relationship colist;
+    Relationship notAvailableAfter;
+    Relationship availableAfter;
 
     QString vector;
     QString previousCode;
@@ -49,9 +51,13 @@ public:
     const QString& getAttribute() const;
 
     const Relationship& getExclusion() const;
+    Relationship& getExclusion();
     const Relationship& getPrerequisite() const;
+    Relationship& getPrerequisite();
     const Relationship& getCorequisite() const;
     const Relationship& getColist() const;
+    const Relationship& getNotAvailableAfter() const;
+    const Relationship& getAvaialbeAfter() const;
 
     const QString& getVector() const;
     const QString& getPreviousCode() const;
@@ -60,6 +66,10 @@ public:
     // stream operator
     friend std::ostream& operator<<(std::ostream &os, const Course& course);
 
+    QString dubugDescription();
+
+    void addNotAvailableAfter(Course* const course);
+    void addAvaiableAfter(Course* const course);
     void linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses);
 };
 

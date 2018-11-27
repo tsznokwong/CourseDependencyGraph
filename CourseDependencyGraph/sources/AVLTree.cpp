@@ -159,6 +159,22 @@ const DataType& AVLTree<DataPair>::find(const KeyType& key) const{
 	return root->data;
 }
 
+
+AVLTreeTemplate
+DataType& AVLTree<DataPair>::find(const KeyType& key) {
+    if (key < root->key){
+        if (leftSubtree().empty())
+            return root->data;
+        return leftSubtree().find(key);
+    }
+    if (key > root->key){
+        if (rightSubtree().empty())
+            return root->data;
+        return rightSubtree().find(key);
+    }
+    return root->data;
+}
+
 AVLTreeTemplate
 bool AVLTree<DataPair>::add(const KeyType& key, const DataType& data){
 	bool success = false;
