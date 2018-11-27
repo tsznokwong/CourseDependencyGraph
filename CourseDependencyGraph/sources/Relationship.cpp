@@ -29,6 +29,11 @@ const std::vector<const Course*>& Relationship::getEdges() const { return this->
 const QString& Relationship::getDescription() const { return this->description; }
 const std::vector<CourseCode>& Relationship::getCourseCodes() const { return this->courseCodes; }
 
+void Relationship::addEdge(const CourseCode courseCode, const Course* course) {
+    this->edges.push_back(course);
+    this->courseCodes.push_back(courseCode);
+}
+
 void Relationship::linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses) {
     for (CourseCode courseCode: this->courseCodes) {
         if (!courses.contains(courseCode.getSubject())) {

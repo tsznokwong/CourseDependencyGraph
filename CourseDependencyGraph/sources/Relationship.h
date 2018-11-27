@@ -28,6 +28,7 @@ public:
     const QString& getDescription() const;
     const std::vector<CourseCode>& getCourseCodes() const;
 
+    void addEdge(const CourseCode courseCode, const Course* course);
     void linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses);
 };
 

@@ -51,9 +51,18 @@ std::ostream& operator<<(std::ostream &os, const Course& course) {
     return os << course.getCourseCode().description().toStdString();
 }
 
+void Course::addNotAvailableAfter(const Course* course) {
+    this->notAvailableAfter.addEdge(course->courseCode, course);
+}
+void Course::addAvaiableAfter(const Course* course) {
+    this->availableAfter.addEdge(course->courseCode, course);
+}
+
 void Course::linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses) {
     this->exclusion.linkCourses(courses);
     this->prerequisite.linkCourses(courses);
     this->corequisite.linkCourses(courses);
     this->colist.linkCourses(courses);
 }
+
+
