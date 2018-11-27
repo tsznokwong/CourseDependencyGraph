@@ -100,10 +100,17 @@ void DependencyManager::linkCourses() {
     std::vector<QString> subjects;
     this->courses.toKeyVector(subjects);
     for (QString subject: subjects) {
-        std::vector<CourseCode> courses;
-        this->courses.find(subject)->toKeyVector(courses);
-        for (CourseCode courseCode: courses) {
-            this->courses.find(subject)->find(courseCode)->linkCourses(this->courses);
+        std::vector<CourseCode> courseCodes;
+        this->courses.find(subject)->toKeyVector(courseCodes);
+        for (CourseCode courseCode: courseCodes) {
+            Course* course = this->courses.find(subject)->find(courseCode);
+            course->linkCourses(this->courses);
+            for (Course *targetCourse: course->getPrerequisite().getEdges()) {
+                targetCourse->addAvaiableAfter(course);
+            }
+            for (Course *targetCourse: course->getExclusion().getEdges()) {
+                targetCourse->addNotAvailableAfter(course);
+            }
         }
     }
 }

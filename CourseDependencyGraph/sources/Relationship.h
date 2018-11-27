@@ -16,7 +16,7 @@ public:
     };
 private:
     Type type;
-    std::vector<const Course*> edges;
+    std::vector<Course*> edges;
     QString description;
     std::vector<CourseCode> courseCodes;
 public:
@@ -24,11 +24,12 @@ public:
 
     // getter
     const Type& getType() const;
-    const std::vector<const Course*>& getEdges() const;
+    const std::vector<Course*>& getEdges() const;
+    std::vector<Course*>& getEdges();
     const QString& getDescription() const;
     const std::vector<CourseCode>& getCourseCodes() const;
 
-    void addEdge(const CourseCode courseCode, const Course* course);
+    void addEdge(const CourseCode courseCode, Course* const course);
     void linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses);
 };
 

@@ -37,7 +37,9 @@ const QString& Course::getDescription() const { return this->description; }
 const QString& Course::getAttribute() const { return this->attribute; }
 
 const Relationship& Course::getExclusion() const { return this->exclusion; }
+Relationship& Course::getExclusion() { return this->exclusion; }
 const Relationship& Course::getPrerequisite() const { return this->prerequisite; }
+Relationship& Course::getPrerequisite() { return this->prerequisite; }
 const Relationship& Course::getCorequisite() const { return this->corequisite; }
 const Relationship& Course::getColist() const { return this->colist; }
 const Relationship& Course::getNotAvailableAfter() const { return this->notAvailableAfter; }
@@ -47,14 +49,15 @@ const QString& Course::getVector() const { return this->vector; }
 const QString& Course::getPreviousCode() const { return this->previousCode; }
 const std::vector<Semester>& Course::getOfferIn() const { return this->offerIn; }
 
+
 std::ostream& operator<<(std::ostream &os, const Course& course) {
     return os << course.getCourseCode().description().toStdString();
 }
 
-void Course::addNotAvailableAfter(const Course* course) {
+void Course::addNotAvailableAfter(Course* const course) {
     this->notAvailableAfter.addEdge(course->courseCode, course);
 }
-void Course::addAvaiableAfter(const Course* course) {
+void Course::addAvaiableAfter(Course* const course) {
     this->availableAfter.addEdge(course->courseCode, course);
 }
 

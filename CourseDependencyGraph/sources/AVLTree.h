@@ -42,6 +42,7 @@ public:
 	const AVLNode& min() const;
 	bool contains(const KeyType& key) const;
 	const DataType& find(const KeyType& key) const;
+    DataType& find(const KeyType& key);
 	bool add(const KeyType& key, const DataType& data);
 	bool remove(const KeyType& key);
 	unsigned int getSize();
