@@ -12,7 +12,7 @@ class Course;
 class Relationship {
 public:
     enum Type {
-        EXCLUSION, PREREQUISITE, COREQUISITE, COLIST
+        EXCLUSION, PREREQUISITE, COREQUISITE, COLIST, NOT_AVAILABLE_AFTER, AVAILABLE_AFTER
     };
 private:
     Type type;

@@ -21,6 +21,8 @@ private:
     Relationship prerequisite;
     Relationship corequisite;
     Relationship colist;
+    Relationship notAvailableAfter;
+    Relationship availableAfter;
 
     QString vector;
     QString previousCode;
@@ -52,6 +54,8 @@ public:
     const Relationship& getPrerequisite() const;
     const Relationship& getCorequisite() const;
     const Relationship& getColist() const;
+    const Relationship& getNotAvailableAfter() const;
+    const Relationship& getAvaialbeAfter() const;
 
     const QString& getVector() const;
     const QString& getPreviousCode() const;
