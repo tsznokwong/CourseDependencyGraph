@@ -13,15 +13,19 @@ class CourseInfoWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit CourseInfoWidget(QWidget *parent = nullptr, const Course* const course = nullptr);
+    explicit CourseInfoWidget(QWidget *parent = nullptr,
+                              const AVLTree<QString, AVLTree<CourseCode, Course* >* >* courses = nullptr,
+                              const Course* const course = nullptr);
     ~CourseInfoWidget();
 
 private:
     Ui::CourseInfoWidget *ui;
     const Course *course;
+    const AVLTree<QString, AVLTree<CourseCode, Course* >* >* courses;
 
 private slots:
     void treeWidgetItemClicked(QTreeWidgetItem *item, int column);
+
 };
 
 #endif // COURSEINFOWIDGET_H

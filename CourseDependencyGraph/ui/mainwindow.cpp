@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->dependencyManager->loadCSV();
     this->dependencyManager->linkCourses();
 
-    this->courseInfoWidget = new CourseInfoWidget(this->ui->courseInfoWidget);
+    this->courseInfoWidget = new CourseInfoWidget(this->ui->courseInfoWidget, &this->dependencyManager->courses);
 
 	setupTreeView();
 }
