@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTreeWidgetItem>
 #include "utilities/DependencyManager.h"
+#include "CourseInfoWidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +21,7 @@ public:
 private:
     Ui::MainWindow *ui;
     DependencyManager *dependencyManager;
+    CourseInfoWidget  *courseInfoWidget;
 
 	void setupTreeView();
 	QTreeWidgetItem* treeViewAddRoot(QString string);

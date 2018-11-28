@@ -1,9 +1,12 @@
+#include <QDebug>
+
 #include "CourseInfoWidget.h"
 #include "ui_CourseInfoWidget.h"
 
-CourseInfoWidget::CourseInfoWidget(QWidget *parent) :
+CourseInfoWidget::CourseInfoWidget(QWidget *parent, const Course* const course) :
     QWidget(parent),
-    ui(new Ui::CourseInfoWidget) {
+    ui(new Ui::CourseInfoWidget),
+    course(course) {
     ui->setupUi(this);
 
     QPalette pal = palette();
@@ -15,4 +18,8 @@ CourseInfoWidget::CourseInfoWidget(QWidget *parent) :
 
 CourseInfoWidget::~CourseInfoWidget(){
     delete ui;
+}
+
+void CourseInfoWidget::treeWidgetItemClicked(QTreeWidgetItem *item, int column) {
+    qDebug() << item->text(column) << " clicked ";
 }
