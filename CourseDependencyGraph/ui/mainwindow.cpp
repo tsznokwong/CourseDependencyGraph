@@ -1,5 +1,8 @@
+#include <QLayout>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "CourseInfoWidget.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -9,6 +12,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->dependencyManager->loadCSV();
     this->dependencyManager->linkCourses();
+
+    CourseInfoWidget *courseInfoWidget = new CourseInfoWidget(this->ui->courseInfoWidget);
+
 
 	setupTreeView();
 }
