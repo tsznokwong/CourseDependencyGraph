@@ -101,10 +101,11 @@ void DependencyManager::linkCourses() {
     std::vector<QString> subjects;
     this->courses.toKeyVector(subjects);
     for (QString subject: subjects) {
+        AVLTree<CourseCode, Course* >* subjectTree = this->courses.find(subject);
         std::vector<CourseCode> courseCodes;
-        this->courses.find(subject)->toKeyVector(courseCodes);
+        subjectTree->toKeyVector(courseCodes);
         for (CourseCode courseCode: courseCodes) {
-            Course* course = this->courses.find(subject)->find(courseCode);
+            Course* course = subjectTree->find(courseCode);
             course->linkCourses(this->courses);
 
             for (Course *targetCourse: course->getPrerequisite().getEdges()) {
