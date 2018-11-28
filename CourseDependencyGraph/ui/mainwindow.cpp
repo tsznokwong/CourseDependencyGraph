@@ -1,15 +1,21 @@
 #include <QDebug>
 #include <QTreeWidgetItemIterator>
+#include <QLayout>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "CourseInfoWidget.h"
+#include <QDebug>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     dependencyManager(new DependencyManager) {
 	ui->setupUi(this);
+	scene = new QGraphicsScene(this);
+	ui->graphicsView->setScene(scene);
+
 
     this->dependencyManager->loadCSV();
     this->dependencyManager->linkCourses();
@@ -25,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(searchEnterPressed()));
 
 	setupTreeView();
+	addCourseLabel("COMP 2011", 0, 0);
+	addCourseLabel("COMP 2012", 100, -10);
+	addCourseLabel("COMP 2013", 100, 10);
+	addCourseLabel("MMMM8888M", 200, -20);
 }
 
 
@@ -122,3 +132,13 @@ void MainWindow::searchEnterPressed() {
 }
 
 
+QGraphicsProxyWidget* MainWindow::addCourseLabel(QString name, qreal x, qreal y){
+	QGraphicsProxyWidget* label = scene->addWidget(new CourseLabel(nullptr, name));
+	label->setPos(x, y);
+	label->setZValue(1);
+	return label;
+}
+
+void MainWindow::connectCourseLabels(QGraphicsProxyWidget* from, QGraphicsProxyWidget* to){
+	qDebug() << QString::number(from->x()) + QChar(' ') + QString::number(from->y());
+}

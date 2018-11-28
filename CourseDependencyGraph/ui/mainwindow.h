@@ -5,6 +5,10 @@
 #include <QTreeWidgetItem>
 #include "utilities/DependencyManager.h"
 #include "CourseInfoWidget.h"
+#include <QGraphicsScene>
+#include <QGraphicsTextItem>
+#include "CourseLabel.h"
+#include <QGraphicsProxyWidget>
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +26,9 @@ private:
     Ui::MainWindow *ui;
     DependencyManager *dependencyManager;
     CourseInfoWidget  *courseInfoWidget;
+	QGraphicsScene *scene;
+	QGraphicsRectItem *nodeBoxes;
+
 
 	void setupTreeView();
 	QTreeWidgetItem* treeViewAddRoot(QString string);
@@ -30,6 +37,8 @@ private:
 private slots:
     void searchCourse(const QString &text);
     void searchEnterPressed();
+	QGraphicsProxyWidget* addCourseLabel(QString name, qreal x, qreal y);
+	void connectCourseLabels(QGraphicsProxyWidget* from , QGraphicsProxyWidget* to);
 };
 
 #endif // MAINWINDOW_H
