@@ -1,4 +1,5 @@
-#include <QLayout>
+#include <QDebug>
+#include <QTreeWidgetItemIterator>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -17,6 +18,11 @@ MainWindow::MainWindow(QWidget *parent) :
                                                   &this->dependencyManager->courses,
                                                   nullptr,
                                                   this->ui->treeWidget);
+
+    connect(this->ui->searchBar, SIGNAL(textChanged(const QString&)),
+            this, SLOT(searchCourse(const QString&)));
+    connect(this->ui->searchBar, SIGNAL(returnPressed()),
+            this, SLOT(searchEnterPressed()));
 
 	setupTreeView();
 }
@@ -60,3 +66,59 @@ void MainWindow::treeViewAddChild(QTreeWidgetItem *parent, QString string){
     item->setText(0, string);
 	parent->addChild(item);
 }
+
+void MainWindow::searchCourse(const QString &text) {
+    this->ui->treeWidget->clearSelection();
+    this->ui->treeWidget->collapseAll();
+    QString keyword = text.toUpper();
+    keyword.remove(" ");
+    if (keyword == "") { return; }
+
+    QTreeWidgetItemIterator iterator { this->ui->treeWidget };
+    while ((*iterator)->text(0) < keyword.left(4)) {
+        ++iterator;
+    }
+
+    QTreeWidgetItem *subjectItem = *iterator;
+    if (!subjectItem->text(0).startsWith(keyword.left(4))) { return; }
+    subjectItem->setSelected(true);
+    this->ui->treeWidget->setCurrentItem(subjectItem);
+
+    if (subjectItem->text(0) != keyword.left(4)) { return; }
+    this->ui->treeWidget->expandItem(subjectItem);
+
+    ++iterator;
+    while ((*iterator)->text(0) < keyword.mid(4)) {
+        ++iterator;
+    }
+    QTreeWidgetItem *codeItem = *iterator;
+
+    if (!codeItem->text(0).startsWith(keyword.mid(4))) { return; }
+    this->ui->treeWidget->clearSelection();
+    codeItem->setSelected(true);
+    this->ui->treeWidget->setCurrentItem(codeItem);
+}
+
+
+void MainWindow::searchEnterPressed() {
+    QList<QTreeWidgetItem *> items = this->ui->treeWidget->selectedItems();
+    if (items.size() == 0) { return; }
+    QTreeWidgetItem *item = items.first();
+    if (item == nullptr) { return; }
+
+    QString keyword = this->ui->searchBar->text().toUpper();
+    keyword.remove(" ");
+
+    if (item->parent() == nullptr) {
+        if (item->text(0).startsWith(keyword.left(4))) {
+            this->ui->searchBar->setText(item->text(0));
+        }
+    } else {
+        if (item->text(0).startsWith(keyword.mid(4))) {
+            this->ui->searchBar->setText(item->parent()->text(0) + item->text(0));
+        }
+    }
+
+}
+
+
