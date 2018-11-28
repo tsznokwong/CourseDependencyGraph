@@ -41,7 +41,7 @@ void DependencyManager::loadCSV() {
             if (courseData->fields[column] == "SUBJECT") {
                 subject = record[column];
             } else if (courseData->fields[column] == "CODE") {
-                QRegularExpression regex {"(?<code>\\d{4})(?<extension>\\w?)"};
+                QRegularExpression regex {"(?<code>\\d{4})(?<extension>[A-Z]?)"};
                 QRegularExpressionMatch match = regex.match(record[column]);
                 if (match.hasMatch()) {
                     code = match.captured("code").toInt();

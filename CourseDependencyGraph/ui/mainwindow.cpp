@@ -40,7 +40,7 @@ void MainWindow::setupTreeView(){
 		courseVector.clear();
 		dependencyManager->courses.find(subjectVector[i])->toKeyVector(courseVector);
 		for (unsigned int j = 0; j < courseVector.size(); ++j){
-			treeViewAddChild(root, QString::number(courseVector[j].getCode()));
+            treeViewAddChild(root, QString::number(courseVector[j].getCode()) + courseVector[j].getExtension());
 		}
 	}
 }

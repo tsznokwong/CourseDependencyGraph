@@ -23,6 +23,8 @@ private:
     const Course *course;
     const AVLTree<QString, AVLTree<CourseCode, Course* >* >* courses;
 
+    void setCourseInfo();
+
 private slots:
     void treeWidgetItemClicked(QTreeWidgetItem *item, int column);
 

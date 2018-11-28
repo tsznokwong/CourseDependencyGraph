@@ -19,10 +19,27 @@ CourseInfoWidget::CourseInfoWidget(QWidget *parent,
     this->show();
 }
 
-CourseInfoWidget::~CourseInfoWidget(){
+CourseInfoWidget::~CourseInfoWidget() {
     delete ui;
 }
 
-void CourseInfoWidget::treeWidgetItemClicked(QTreeWidgetItem *item, int column) {
-
+void CourseInfoWidget::setCourseInfo() {
+    if (this->course == nullptr) { return; }
+    this->ui->courseCodeLabel->setText(this->course->getCourseCode().description());
 }
+
+void CourseInfoWidget::treeWidgetItemClicked(QTreeWidgetItem *item, int column) {
+    QTreeWidgetItem *subject = item->parent();
+    if (subject == nullptr) { return; }
+
+    AVLTree<CourseCode, Course* >* subjectTree = this->courses->find(subject->text(0));
+    if (subjectTree == nullptr) { return; }
+
+    CourseCode *courseCode = CourseCode::create(subject->text(0) + item->text((0)));
+    if (courseCode == nullptr) { return; }
+    this->course = subjectTree->find(*courseCode);
+    delete courseCode;
+
+    this->setCourseInfo();
+}
+
