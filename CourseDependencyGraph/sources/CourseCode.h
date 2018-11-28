@@ -13,6 +13,8 @@ public:
     CourseCode() = default;
     CourseCode(QString subject, int code, QString extension = "");
 
+    static CourseCode* create(QString code);
+
     // getter
     const QString& getSubject() const;
     const int& getCode() const;
