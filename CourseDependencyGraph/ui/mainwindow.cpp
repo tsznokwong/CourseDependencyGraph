@@ -1,5 +1,8 @@
+#include <QLayout>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "CourseInfoWidget.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,19 +13,27 @@ MainWindow::MainWindow(QWidget *parent) :
     this->dependencyManager->loadCSV();
     this->dependencyManager->linkCourses();
 
+    this->courseInfoWidget = new CourseInfoWidget(this->ui->courseInfoWidget,
+                                                  &this->dependencyManager->courses,
+                                                  nullptr,
+                                                  this->ui->treeWidget);
+
 	setupTreeView();
 }
 
 
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
+    delete this->dependencyManager;
+    delete this->courseInfoWidget;
     delete ui;
 }
 
 void MainWindow::setupTreeView(){
 	ui->treeWidget->setHeaderLabel("Courses");
 	ui->treeWidget->setColumnCount(1);
+    connect(ui->treeWidget, SIGNAL(itemSelectionChanged()),
+            this->courseInfoWidget, SLOT(treeWidgetItemClicked()));
 
 	vector<QString> subjectVector;
 	vector<CourseCode> courseVector;
@@ -32,7 +43,7 @@ void MainWindow::setupTreeView(){
 		courseVector.clear();
 		dependencyManager->courses.find(subjectVector[i])->toKeyVector(courseVector);
 		for (unsigned int j = 0; j < courseVector.size(); ++j){
-			treeViewAddChild(root, QString::number(courseVector[j].getCode()));
+            treeViewAddChild(root, QString::number(courseVector[j].getCode()) + courseVector[j].getExtension());
 		}
 	}
 }
@@ -46,6 +57,6 @@ QTreeWidgetItem* MainWindow::treeViewAddRoot(QString string){
 
 void MainWindow::treeViewAddChild(QTreeWidgetItem *parent, QString string){
 	QTreeWidgetItem *item = new QTreeWidgetItem();
-	item->setText(0, string);
+    item->setText(0, string);
 	parent->addChild(item);
 }

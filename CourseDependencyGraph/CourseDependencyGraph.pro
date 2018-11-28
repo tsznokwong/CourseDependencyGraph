@@ -34,7 +34,8 @@ SOURCES += \
     sources/Course.cpp \
     utilities/CSVLoader.cpp \
     utilities/DependencyManager.cpp \
-    sources/AVLTree.tpp
+    sources/AVLTree.tpp \
+    ui/CourseInfoWidget.cpp
 
 HEADERS += \
         ui/mainwindow.h \
@@ -44,10 +45,12 @@ HEADERS += \
     sources/AVLTree.h \
     sources/Relationship.h \
     utilities/CSVLoader.h \
-    utilities/DependencyManager.h
+    utilities/DependencyManager.h \
+    ui/CourseInfoWidget.h
 
 FORMS += \
-        ui/mainwindow.ui
+        ui/mainwindow.ui \
+    ui/CourseInfoWidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

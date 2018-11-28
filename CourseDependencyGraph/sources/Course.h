@@ -57,11 +57,12 @@ public:
     const Relationship& getCorequisite() const;
     const Relationship& getColist() const;
     const Relationship& getNotAvailableAfter() const;
-    const Relationship& getAvaialbeAfter() const;
+    const Relationship& getAvailableAfter() const;
 
     const QString& getVector() const;
     const QString& getPreviousCode() const;
     const std::vector<Semester>& getOfferIn() const;
+    QString getOfferInDescription() const;
 
     // stream operator
     friend std::ostream& operator<<(std::ostream &os, const Course& course);
