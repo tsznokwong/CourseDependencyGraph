@@ -26,6 +26,10 @@ private:
 	void setupTreeView();
 	QTreeWidgetItem* treeViewAddRoot(QString string);
 	void treeViewAddChild(QTreeWidgetItem* parent, QString string);
+
+private slots:
+    void searchCourse(const QString &text);
+    void searchEnterPressed();
 };
 
 #endif // MAINWINDOW_H

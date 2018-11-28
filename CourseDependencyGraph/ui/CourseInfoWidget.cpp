@@ -97,7 +97,10 @@ void CourseInfoWidget::setCourseInfo() {
 }
 
 void CourseInfoWidget::treeWidgetItemClicked() {
-    QTreeWidgetItem *item = this->treeWidget->selectedItems().first();
+    QList<QTreeWidgetItem *> items = this->treeWidget->selectedItems();
+    if (items.size() == 0) { return; }
+    QTreeWidgetItem *item = items.first();
+    if (item == nullptr) { return; }
     QTreeWidgetItem *subject = item->parent();
     if (subject == nullptr) { return; }
 
