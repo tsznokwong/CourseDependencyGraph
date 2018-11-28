@@ -13,7 +13,10 @@ MainWindow::MainWindow(QWidget *parent) :
     this->dependencyManager->loadCSV();
     this->dependencyManager->linkCourses();
 
-    this->courseInfoWidget = new CourseInfoWidget(this->ui->courseInfoWidget, &this->dependencyManager->courses);
+    this->courseInfoWidget = new CourseInfoWidget(this->ui->courseInfoWidget,
+                                                  &this->dependencyManager->courses,
+                                                  nullptr,
+                                                  this->ui->treeWidget);
 
 	setupTreeView();
 }
@@ -29,8 +32,8 @@ MainWindow::~MainWindow() {
 void MainWindow::setupTreeView(){
 	ui->treeWidget->setHeaderLabel("Courses");
 	ui->treeWidget->setColumnCount(1);
-    connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)),
-            this->courseInfoWidget, SLOT(treeWidgetItemClicked(QTreeWidgetItem*, int)));
+    connect(ui->treeWidget, SIGNAL(itemSelectionChanged()),
+            this->courseInfoWidget, SLOT(treeWidgetItemClicked()));
 
 	vector<QString> subjectVector;
 	vector<CourseCode> courseVector;

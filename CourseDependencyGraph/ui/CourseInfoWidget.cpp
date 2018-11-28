@@ -5,11 +5,13 @@
 
 CourseInfoWidget::CourseInfoWidget(QWidget *parent,
                                    const AVLTree<QString, AVLTree<CourseCode, Course* >* >* courses,
-                                   const Course* const course) :
+                                   const Course* const course,
+                                   const QTreeWidget* const treeWidget) :
     QWidget(parent),
     ui(new Ui::CourseInfoWidget),
     course(course),
-    courses(courses) {
+    courses(courses),
+    treeWidget(treeWidget){
     ui->setupUi(this);
 
     QPalette pal = palette();
@@ -91,14 +93,15 @@ void CourseInfoWidget::setCourseInfo() {
     this->ui->offerInLabel->setText("Offer In: " + this->course->getOfferInDescription());
 }
 
-void CourseInfoWidget::treeWidgetItemClicked(QTreeWidgetItem *item, int column) {
+void CourseInfoWidget::treeWidgetItemClicked() {
+    QTreeWidgetItem *item = this->treeWidget->selectedItems().first();
     QTreeWidgetItem *subject = item->parent();
     if (subject == nullptr) { return; }
 
-    AVLTree<CourseCode, Course* >* subjectTree = this->courses->find(subject->text(column));
+    AVLTree<CourseCode, Course* >* subjectTree = this->courses->find(subject->text(0));
     if (subjectTree == nullptr) { return; }
 
-    CourseCode *courseCode = CourseCode::create(subject->text(column) + item->text((column)));
+    CourseCode *courseCode = CourseCode::create(subject->text(0) + item->text((0)));
     if (courseCode == nullptr) { return; }
     this->course = subjectTree->find(*courseCode);
     delete courseCode;
