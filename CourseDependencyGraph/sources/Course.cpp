@@ -49,6 +49,14 @@ const QString& Course::getVector() const { return this->vector; }
 const QString& Course::getPreviousCode() const { return this->previousCode; }
 const std::vector<Semester>& Course::getOfferIn() const { return this->offerIn; }
 
+QString Course::getOfferInDescription() const {
+    QString description = "";
+    for (unsigned int iterator = 0; iterator < this->offerIn.size(); ++iterator) {
+        description += this->offerIn[iterator].description() +
+                (iterator < this->offerIn.size() - 1 ? ", " : "");
+    }
+    return description;
+}
 
 std::ostream& operator<<(std::ostream &os, const Course& course) {
     return os << course.getCourseCode().description().toStdString();
@@ -74,17 +82,14 @@ QString Course::dubugDescription() {
             + "(" + QString::number(this->credit) + ") "
             + "\n" + this->description
             + "\n" + this->attribute
-            + "\nExclusion:" + this->exclusion.getDescription()
-            + "\nPrerequisite:" + this->prerequisite.getDescription()
-            + "\nCorequisite:" + this->corequisite.getDescription()
-            + "\nColist:" + this->colist.getDescription()
-            + "\nNot Available After:" + this->notAvailableAfter.getDescription()
-            + "\nAvailable After:" + this->availableAfter.getDescription()
-            + "\nVector:" + this->vector
-            + "\nPrevious Code:" + this->previousCode
-            + "\nOffer In:";
-    for (Semester semester: this->offerIn) {
-        description += semester.description() + " ";
-    }
+            + "\nExclusion: " + this->exclusion.getDescription()
+            + "\nPrerequisite: " + this->prerequisite.getDescription()
+            + "\nCorequisite: " + this->corequisite.getDescription()
+            + "\nColist: " + this->colist.getDescription()
+            + "\nNot Available After: " + this->notAvailableAfter.getDescription()
+            + "\nAvailable After: " + this->availableAfter.getDescription()
+            + "\nVector: " + this->vector
+            + "\nPrevious Code: " + this->previousCode
+            + "\nOffer In: " + this->getOfferInDescription();
     return description;
 }

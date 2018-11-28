@@ -62,6 +62,7 @@ public:
     const QString& getVector() const;
     const QString& getPreviousCode() const;
     const std::vector<Semester>& getOfferIn() const;
+    QString getOfferInDescription() const;
 
     // stream operator
     friend std::ostream& operator<<(std::ostream &os, const Course& course);
