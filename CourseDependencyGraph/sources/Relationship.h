@@ -19,6 +19,8 @@ private:
     std::vector<Course*> edges;
     QString description;
     std::vector<CourseCode> courseCodes;
+
+    void updateDescription();
 public:
     Relationship(Type type, QString description);
 

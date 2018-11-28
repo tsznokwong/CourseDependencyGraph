@@ -30,10 +30,22 @@ std::vector<Course*>& Relationship::getEdges() { return this->edges; }
 const QString& Relationship::getDescription() const { return this->description; }
 const std::vector<CourseCode>& Relationship::getCourseCodes() const { return this->courseCodes; }
 
+void Relationship::updateDescription() {
+    if (this->courseCodes.size() == 0) {
+        this->description = "-";
+        return;
+    }
+    this->description = "";
+    for (unsigned int iterator = 0; iterator < this->courseCodes.size(); ++iterator) {
+        this->description += this->courseCodes[iterator].description() +
+                (iterator < this->courseCodes.size() - 1 ? ", " : "");
+    }
+}
+
 void Relationship::addEdge(const CourseCode courseCode, Course* const course) {
     this->edges.push_back(course);
     this->courseCodes.push_back(courseCode);
-    this->description += courseCode.description() + " ";
+    this->updateDescription();
 }
 
 void Relationship::linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses) {
