@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>280</width>
-    <height>515</height>
+    <width>200</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -27,11 +27,14 @@
     <rect>
      <x>0</x>
      <y>-1</y>
-     <width>281</width>
-     <height>521</height>
+     <width>201</width>
+     <height>601</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="leftMargin">
+     <number>12</number>
+    </property>
     <item>
      <widget class="QLabel" name="courseCodeLabel">
       <property name="sizePolicy">

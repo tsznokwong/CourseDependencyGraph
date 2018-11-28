@@ -16,7 +16,6 @@ CourseInfoWidget::CourseInfoWidget(QWidget *parent,
     pal.setColor(QPalette::Background, Qt::white);
     this->setAutoFillBackground(true);
     this->setPalette(pal);
-    this->show();
 }
 
 CourseInfoWidget::~CourseInfoWidget() {
@@ -32,10 +31,10 @@ void CourseInfoWidget::treeWidgetItemClicked(QTreeWidgetItem *item, int column) 
     QTreeWidgetItem *subject = item->parent();
     if (subject == nullptr) { return; }
 
-    AVLTree<CourseCode, Course* >* subjectTree = this->courses->find(subject->text(0));
+    AVLTree<CourseCode, Course* >* subjectTree = this->courses->find(subject->text(column));
     if (subjectTree == nullptr) { return; }
 
-    CourseCode *courseCode = CourseCode::create(subject->text(0) + item->text((0)));
+    CourseCode *courseCode = CourseCode::create(subject->text(column) + item->text((column)));
     if (courseCode == nullptr) { return; }
     this->course = subjectTree->find(*courseCode);
     delete courseCode;
