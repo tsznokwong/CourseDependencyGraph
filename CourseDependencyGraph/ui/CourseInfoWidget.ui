@@ -31,8 +31,23 @@
      <height>601</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0,1,1,1,1,1,1,1,1,0,1">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
     <property name="leftMargin">
+     <number>12</number>
+    </property>
+    <property name="topMargin">
+     <number>12</number>
+    </property>
+    <property name="rightMargin">
+     <number>12</number>
+    </property>
+    <property name="bottomMargin">
      <number>12</number>
     </property>
     <item>
@@ -44,7 +59,138 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>Course Code (Credit)</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="attributesLabel">
+      <property name="text">
+       <string>Attributes</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="titleLabel">
+      <property name="text">
+       <string>Title</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="descriptionLabel">
+      <property name="text">
+       <string>Description: </string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="exclusionLabel">
+      <property name="text">
+       <string>Exclusion: </string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="prerequisiteLabel">
+      <property name="text">
+       <string>Prerequisites:</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="corequisiteLabel">
+      <property name="text">
+       <string>Corequisites:</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="colistLabel">
+      <property name="text">
+       <string>Colist:</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="availableAfterLabel">
+      <property name="text">
+       <string>Available After:</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="notAvailableAfterLabel">
+      <property name="text">
+       <string>Not Available After:</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="previousCodeLabel">
+      <property name="text">
+       <string>Previous Code: </string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="offerInLabel">
+      <property name="text">
+       <string>Offer In:</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
       </property>
      </widget>
     </item>

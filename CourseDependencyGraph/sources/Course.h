@@ -57,7 +57,7 @@ public:
     const Relationship& getCorequisite() const;
     const Relationship& getColist() const;
     const Relationship& getNotAvailableAfter() const;
-    const Relationship& getAvaialbeAfter() const;
+    const Relationship& getAvailableAfter() const;
 
     const QString& getVector() const;
     const QString& getPreviousCode() const;

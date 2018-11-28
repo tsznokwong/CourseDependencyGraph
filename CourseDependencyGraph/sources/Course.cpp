@@ -43,7 +43,7 @@ Relationship& Course::getPrerequisite() { return this->prerequisite; }
 const Relationship& Course::getCorequisite() const { return this->corequisite; }
 const Relationship& Course::getColist() const { return this->colist; }
 const Relationship& Course::getNotAvailableAfter() const { return this->notAvailableAfter; }
-const Relationship& Course::getAvaialbeAfter() const { return this->availableAfter; }
+const Relationship& Course::getAvailableAfter() const { return this->availableAfter; }
 
 const QString& Course::getVector() const { return this->vector; }
 const QString& Course::getPreviousCode() const { return this->previousCode; }
