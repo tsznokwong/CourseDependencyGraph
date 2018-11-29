@@ -133,17 +133,20 @@ void MainWindow::searchEnterPressed() {
 
 
 QGraphicsProxyWidget* MainWindow::addCourseLabel(QString name, qreal x, qreal y){
-	QGraphicsProxyWidget* label = scene->addWidget(new CourseLabel(nullptr, name));
-	label->setPos(x, y);
-	label->setZValue(1);
-	return label;
+    QGraphicsProxyWidget* label = scene->addWidget(new CourseLabel(nullptr, name));
+    label->setPos(x, y);
+    label->setZValue(1);
+    label->boundingRect().adjust(-20, -20, 20, 20);
+    ui->graphicsView->fitInView(label->boundingRect(), Qt::KeepAspectRatio);
+
+    return label;
 }
 
 void MainWindow::connectCourseLabels(QGraphicsProxyWidget* from, QGraphicsProxyWidget* to, Qt::GlobalColor color){
-	static const qreal Y_OFFSET = 16;
-	static const qreal X_OFFSET = 61;
-	QPen pen(color);
-	pen.setWidth(2);
-	scene->addLine(from->x() + X_OFFSET, from->y() + Y_OFFSET,
-				   to->x() + X_OFFSET, to->y() + Y_OFFSET, pen);
+    static const qreal Y_OFFSET = 16;
+    static const qreal X_OFFSET = 61;
+    QPen pen(color);
+    pen.setWidth(2);
+    scene->addLine(from->x() + X_OFFSET, from->y() + Y_OFFSET,
+                   to->x() + X_OFFSET, to->y() + Y_OFFSET, pen);
 }
