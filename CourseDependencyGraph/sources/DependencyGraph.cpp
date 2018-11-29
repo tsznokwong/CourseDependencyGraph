@@ -123,6 +123,22 @@ std::vector<DependencyEdge> DependencyGraph<NodePair>::getNextEdgesFrom(const Ke
 }
 
 DependencyGraphTemplate
+void DependencyGraph<NodePair>::getNodesInMap(AVLTree<int, std::vector<NodeType> > &map) const {
+    std::vector<Node> nodes;
+    this->nodeTree.toVector(nodes);
+
+    for (const Node& node: nodes) {
+        if (!map.contains(node.getDepth())) {
+            map.add(node.getDepth(), std::vector<NodeType>());
+        }
+        std::vector<NodeType> &nodesInDepth = map.find(node.getDepth());
+        nodesInDepth.push_back(node.getNode());
+    }
+
+}
+
+
+DependencyGraphTemplate
 void DependencyGraph<NodePair>::updateIsStrongEdge(const KeyType &fromKey, const KeyType &toKey, bool isStrong) {
     std::vector<Edge> edges = this->getEdgesFrom(fromKey);
     for (Edge edge: edges) {

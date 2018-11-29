@@ -64,6 +64,7 @@ public:
     std::vector<Edge> getEdgesFrom(const KeyType &key) const;
     std::vector<Edge> getPreviousEdgesFrom(const KeyType &key) const;
     std::vector<Edge> getNextEdgesFrom(const KeyType &key) const;
+    void getNodesInMap(AVLTree<int, std::vector<NodeType> > &map) const;
 
     bool contains(const KeyType &key) const;
     unsigned int size() const;
@@ -73,6 +74,7 @@ public:
 
     bool addNode(KeyType key, NodeType node);
     bool addEdge(KeyType fromKey, KeyType toKey, Direction direction, int type);
+
 
 
 };
