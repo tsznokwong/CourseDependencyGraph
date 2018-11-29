@@ -73,7 +73,7 @@
      <string>Course Code</string>
     </property>
    </widget>
-   <widget class="QScrollArea" name="scrollArea">
+   <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -82,38 +82,32 @@
       <height>601</height>
      </rect>
     </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustIgnored</enum>
     </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>449</width>
-       <height>599</height>
-      </rect>
-     </property>
-     <widget class="QGraphicsView" name="graphicsView">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>451</width>
-        <height>601</height>
-       </rect>
-      </property>
-      <property name="backgroundBrush">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>243</red>
-         <green>243</green>
-         <blue>243</blue>
-        </color>
-       </brush>
-      </property>
-     </widget>
-    </widget>
+    <property name="backgroundBrush">
+     <brush brushstyle="SolidPattern">
+      <color alpha="255">
+       <red>243</red>
+       <green>243</green>
+       <blue>243</blue>
+      </color>
+     </brush>
+    </property>
+    <property name="sceneRect">
+     <rectf>
+      <x>0.000000000000000</x>
+      <y>0.000000000000000</y>
+      <width>0.000000000000000</width>
+      <height>0.000000000000000</height>
+     </rectf>
+    </property>
+    <property name="renderHints">
+     <set>QPainter::Antialiasing|QPainter::TextAntialiasing</set>
+    </property>
+    <property name="dragMode">
+     <enum>QGraphicsView::NoDrag</enum>
+    </property>
    </widget>
   </widget>
  </widget>

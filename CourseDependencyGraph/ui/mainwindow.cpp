@@ -14,8 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     dependencyManager(new DependencyManager){
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
-    ui->graphicsView->setScene(scene);
-
+	ui->graphicsView->setScene(scene);
     this->dependencyManager->loadCSV();
     this->dependencyManager->linkCourses();
 
@@ -136,9 +135,12 @@ QGraphicsProxyWidget* MainWindow::addCourseLabel(QString name, qreal x, qreal y)
     QGraphicsProxyWidget* label = scene->addWidget(new CourseLabel(nullptr, name));
     label->setPos(x, y);
     label->setZValue(1);
-    label->boundingRect().adjust(-20, -20, 20, 20);
-    ui->graphicsView->fitInView(label->boundingRect(), Qt::KeepAspectRatio);
+	static const qreal Y_OFFSET = 30;
+	static const qreal X_OFFSET = 120;
 
+	static const qreal MARGIN = 20;
+	scene->addRect(x-MARGIN, y-MARGIN, 1, 1, QPen(Qt::transparent), QBrush(Qt::transparent));
+	scene->addRect(x+X_OFFSET + MARGIN, y + Y_OFFSET + MARGIN, 1, 1, QPen(Qt::transparent), QBrush(Qt::transparent));
     return label;
 }
 
