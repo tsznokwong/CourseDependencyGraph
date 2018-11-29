@@ -48,6 +48,15 @@ const std::vector<DependencyNode*>& DependencyGraph<NodePair>::Node::getStrongRo
 DependencyGraphTemplate
 const DependencyDirection& DependencyGraph<NodePair>::Node::getDirection() const { return this->direction; }
 
+DependencyGraphTemplate
+DependencyGraph<NodePair>::Edge::Edge(DependencyGraph* const parent, Node *targetNode, Direction direction, bool isStrongEdge, int type):
+    parent(parent),
+    targetNode(targetNode),
+    direction(direction),
+    isStrongEdge(isStrongEdge),
+    type(type) {
+
+}
 
 
 DependencyGraphTemplate
@@ -59,6 +68,8 @@ const bool& DependencyGraph<NodePair>::Edge::getIsStrongEdge() const { return th
 DependencyGraphTemplate
 const int& DependencyGraph<NodePair>::Edge::getType() const { return this->type; }
 
+DependencyGraphTemplate
+void DependencyGraph<NodePair>::Edge::setIsStrongEdge(bool isStrongEdge) { this->isStrongEdge = isStrongEdge; }
 
 DependencyGraphTemplate
 DependencyGraph<NodePair>::DependencyGraph(KeyType key, NodeType node):
@@ -112,6 +123,8 @@ bool DependencyGraph<NodePair>::isEmpty() const {
     return this->size() == 0;
 }
 
+DependencyGraphTemplate
+void DependencyGraph<NodePair>::updateNodes() {
     std::vector<Edge> edges = this->getEdgesFrom(this->focusNode.key);
     for (Edge edge: edges) {
         edge.getTargetNode()->updateNode(edge.getDirection() == PREVIOUS ? -1 : 1, this->focusNode);

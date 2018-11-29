@@ -14,14 +14,14 @@ public:
 
     class Node {
     private:
-        DependencyGraph * const parent;
+        DependencyGraph* const parent;
         KeyType key;
         NodeType data;
         int depth;
         std::vector<Node*> strongRoots;
         Direction direction;
     public:
-        Node(DependencyGraph * const parent, KeyType key, NodeType data, int depth = 0);
+        Node(DependencyGraph* const parent, KeyType key, NodeType data, int depth = 0);
         void update(int depth, Node* root);
         const KeyType& getKey() const;
         const NodeType& getNode() const;
@@ -32,15 +32,18 @@ public:
 
     class Edge {
     private:
+        DependencyGraph* const parent;
         Node *targetNode;
         Direction direction;
         bool isStrongEdge;
         int type;
     public:
+        Edge(DependencyGraph* const parent, Node *targetNode, Direction direction, bool isStrongEdge, int type);
         const Node*& getTargetNode() const;
         const Direction& getDirection() const;
         const bool& getIsStrongEdge() const;
         const int& getType() const;
+        void setIsStrongEdge(bool isStrongEdge);
     };
 
 private:
