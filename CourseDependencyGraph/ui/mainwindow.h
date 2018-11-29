@@ -31,16 +31,23 @@ private:
 	QGraphicsScene *scene;
 	QGraphicsRectItem *nodeBoxes;
 
+	AVLTree<QString, QGraphicsProxyWidget*> courseLabels;
 
 	void setupTreeView();
 	QTreeWidgetItem* treeViewAddRoot(QString string);
 	void treeViewAddChild(QTreeWidgetItem* parent, QString string);
 
+	QGraphicsProxyWidget* addCourseLabel(QString name, qreal x, qreal y);
+	void connectCourseLabels(QGraphicsProxyWidget* from , QGraphicsProxyWidget* to, Qt::GlobalColor color);
+	void clearCourseLabel();
+
 private slots:
     void searchCourse(const QString &text);
     void searchEnterPressed();
-	QGraphicsProxyWidget* addCourseLabel(QString name, qreal x, qreal y);
-	void connectCourseLabels(QGraphicsProxyWidget* from , QGraphicsProxyWidget* to, Qt::GlobalColor color);
+	void treeWidgetItemClicked();
+
+signals:
+	void treeWidgetItemClick(CourseCode*);
 
 };
 

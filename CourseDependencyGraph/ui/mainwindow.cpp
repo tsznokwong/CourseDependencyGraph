@@ -29,11 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(searchEnterPressed()));
 
 	setupTreeView();
-	auto x = addCourseLabel("COMP2011", 0, 0);
-	auto y = addCourseLabel("COMP2012", 200, -40);
-	connectCourseLabels(x, y, Qt::red);
-	addCourseLabel("COMP2013", 200, 40);
-	addCourseLabel("MMMM8888M", 400, -60);
 }
 
 
@@ -47,8 +42,8 @@ MainWindow::~MainWindow() {
 void MainWindow::setupTreeView(){
 	ui->treeWidget->setHeaderLabel("Courses");
 	ui->treeWidget->setColumnCount(1);
-    connect(ui->treeWidget, SIGNAL(itemSelectionChanged()),
-            this->courseInfoWidget, SLOT(treeWidgetItemClicked()));
+	connect(ui->treeWidget, SIGNAL(itemSelectionChanged()),
+			this, SLOT(treeWidgetItemClicked()));\
 
 	vector<QString> subjectVector;
 	vector<CourseCode> courseVector;
@@ -132,7 +127,9 @@ void MainWindow::searchEnterPressed() {
 
 
 QGraphicsProxyWidget* MainWindow::addCourseLabel(QString name, qreal x, qreal y){
-    QGraphicsProxyWidget* label = scene->addWidget(new CourseLabel(nullptr, name));
+	QGraphicsProxyWidget *label = scene->addWidget(new CourseLabel(nullptr, name));
+
+	courseLabels.add(name, label);
     label->setPos(x, y);
 	label->setZValue(1);
 	static const qreal Y_OFFSET = 30;
@@ -153,6 +150,14 @@ void MainWindow::connectCourseLabels(QGraphicsProxyWidget* from, QGraphicsProxyW
                    to->x() + X_OFFSET, to->y() + Y_OFFSET, pen);
 }
 
+void MainWindow::clearCourseLabel(){
+	vector<QGraphicsProxyWidget*> courseLabelVector;
+	courseLabels.toVector(courseLabelVector);
+	for (QGraphicsProxyWidget *courseLabel: courseLabelVector){
+		scene->removeItem(courseLabel);
+	}
+}
+
 bool MainWindow::eventFilter(QObject *obj, QEvent *event){
 	if (event->type() == QEvent::FocusIn){
 		// parsing courselabel from QObject
@@ -161,4 +166,21 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event){
 		return true;
 	}
 	return false;
+}
+
+void MainWindow::treeWidgetItemClicked(){
+	QList<QTreeWidgetItem *> items = ui->treeWidget->selectedItems();
+	if (items.size() == 0) { return; }
+	QTreeWidgetItem *item = items.first();
+	if (item == nullptr) { return; }
+	QTreeWidgetItem *subject = item->parent();
+	if (subject == nullptr) { return; }
+
+	AVLTree<CourseCode, Course* >* subjectTree = dependencyManager->courses.find(subject->text(0));
+	if (subjectTree == nullptr) { return; }
+
+	CourseCode *courseCode = CourseCode::create(subject->text(0) + item->text((0)));
+	this->courseInfoWidget->treeWidgetItemClicked(courseCode);
+	delete courseCode;
+	return;
 }

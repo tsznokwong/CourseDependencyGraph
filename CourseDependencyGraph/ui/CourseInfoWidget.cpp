@@ -96,21 +96,12 @@ void CourseInfoWidget::setCourseInfo() {
     this->ui->offerInLabel->setText("Offer In: " + this->course->getOfferInDescription());
 }
 
-void CourseInfoWidget::treeWidgetItemClicked() {
-    QList<QTreeWidgetItem *> items = this->treeWidget->selectedItems();
-    if (items.size() == 0) { return; }
-    QTreeWidgetItem *item = items.first();
-    if (item == nullptr) { return; }
-    QTreeWidgetItem *subject = item->parent();
-    if (subject == nullptr) { return; }
-
-    AVLTree<CourseCode, Course* >* subjectTree = this->courses->find(subject->text(0));
+void CourseInfoWidget::treeWidgetItemClicked(CourseCode* courseCode) {
+	AVLTree<CourseCode, Course* >* subjectTree = this->courses->find(courseCode->getSubject());
     if (subjectTree == nullptr) { return; }
 
-    CourseCode *courseCode = CourseCode::create(subject->text(0) + item->text((0)));
-    if (courseCode == nullptr) { return; }
+	if (courseCode == nullptr) { return; }
     this->course = subjectTree->find(*courseCode);
-    delete courseCode;
 
     this->setCourseInfo();
 }
