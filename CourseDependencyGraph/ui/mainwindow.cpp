@@ -134,10 +134,10 @@ void MainWindow::searchEnterPressed() {
 QGraphicsProxyWidget* MainWindow::addCourseLabel(QString name, qreal x, qreal y){
     QGraphicsProxyWidget* label = scene->addWidget(new CourseLabel(nullptr, name));
     label->setPos(x, y);
-    label->setZValue(1);
+	label->setZValue(1);
 	static const qreal Y_OFFSET = 30;
 	static const qreal X_OFFSET = 120;
-
+	label->installEventFilter(this);
 	static const qreal MARGIN = 20;
 	scene->addRect(x-MARGIN, y-MARGIN, 1, 1, QPen(Qt::transparent), QBrush(Qt::transparent));
 	scene->addRect(x+X_OFFSET + MARGIN, y + Y_OFFSET + MARGIN, 1, 1, QPen(Qt::transparent), QBrush(Qt::transparent));
@@ -151,4 +151,10 @@ void MainWindow::connectCourseLabels(QGraphicsProxyWidget* from, QGraphicsProxyW
     pen.setWidth(2);
     scene->addLine(from->x() + X_OFFSET, from->y() + Y_OFFSET,
                    to->x() + X_OFFSET, to->y() + Y_OFFSET, pen);
+}
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event){
+	if (event->type() == QEvent::FocusIn){
+		qDebug() << static_cast<CourseLabel*>(static_cast<QGraphicsProxyWidget*>(obj)->widget())->getName();
+	}
 }

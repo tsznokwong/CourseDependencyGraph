@@ -7,7 +7,7 @@ CourseLabel::CourseLabel(QWidget *parent, QString name) :
 	name(name)
 {
 	ui->setupUi(this);
-        ui->lineEdit->setText(name);
+	ui->lineEdit->setText(name);
 }
 
 CourseLabel::~CourseLabel()

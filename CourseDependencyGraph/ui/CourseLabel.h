@@ -2,6 +2,7 @@
 #define COURSELABEL_H
 
 #include <QFrame>
+#include <QEvent>
 
 namespace Ui {
 class CourseLabel;
@@ -14,6 +15,7 @@ class CourseLabel : public QFrame
 public:
 	explicit CourseLabel(QWidget *parent, QString name);
 	~CourseLabel();
+	QString getName(){return name;}
 
 private:
 	Ui::CourseLabel *ui;

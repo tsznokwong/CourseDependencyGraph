@@ -9,6 +9,7 @@
 #include <QGraphicsTextItem>
 #include "CourseLabel.h"
 #include <QGraphicsProxyWidget>
+#include <QEvent>
 
 namespace Ui {
 class MainWindow;
@@ -21,6 +22,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+	bool eventFilter(QObject *obj, QEvent *ev) override;
 
 private:
     Ui::MainWindow *ui;
