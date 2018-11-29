@@ -2,6 +2,7 @@
 #define DEPENDENCYGRAPH_H
 
 #include <vector>
+#include <set>
 #include "AVLTree.tpp"
 
 template <typename KeyType, typename NodeType>
@@ -14,6 +15,7 @@ public:
 private:
 
     class Node {
+        KeyType key;
         NodeType data;
         int depth;
     };
@@ -21,14 +23,19 @@ private:
     class Edge {
         Node targetNode;
         Direction direction;
+        bool strongEdge;
     };
 
     AVLTree<KeyType, std::vector<Edge> > adjacencyTree;
+    std::set<Node> nodes;
     Node focusNode;
 
 public:
     DependencyGraph() = delete;
-    DependencyGraph(Node focusNode);
+    DependencyGraph(KeyType key, NodeType node);
+
+    bool addNode(KeyType key, NodeType node);
+
 
 };
 
