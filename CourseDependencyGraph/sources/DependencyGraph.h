@@ -12,8 +12,6 @@ public:
         PREVIOUS, NEXT
     };
 
-private:
-
     class Node {
         KeyType key;
         NodeType data;
@@ -21,10 +19,13 @@ private:
     };
 
     class Edge {
-        Node targetNode;
+        Node *targetNode;
         Direction direction;
         bool strongEdge;
+        int type;
     };
+
+private:
 
     AVLTree<KeyType, std::vector<Edge> > adjacencyTree;
     std::set<Node> nodes;
@@ -33,6 +34,12 @@ private:
 public:
     DependencyGraph() = delete;
     DependencyGraph(KeyType key, NodeType node);
+
+    // getter
+    const std::set<Node>& getNodes() const;
+    std::vector<Edge> getEdgesFrom(KeyType key) const;
+    std::vector<Edge> getPreviousEdgesFrom(KeyType key) const;
+    std::vector<Edge> getNextEdgesFrom(KeyType key) const;
 
     bool addNode(KeyType key, NodeType node);
 
