@@ -169,9 +169,11 @@ DependencyGraphTemplate
 bool DependencyGraph<NodePair>::addEdge(KeyType fromKey, KeyType toKey, Direction direction, int type) {
     if (!this->contains(fromKey) || !this->contains(toKey)) { return false; }
 
-    std::vector<Edge>& edges = this->adjacencyTree.find(fromKey);
+    std::vector<Edge> &edges = this->adjacencyTree.find(fromKey);
+    Node *toNode = this->getNode(toKey);
 
-
+    edges.push_back({ this, toNode, direction, type});
+    this->updateNodes();
 
     return true;
 }
