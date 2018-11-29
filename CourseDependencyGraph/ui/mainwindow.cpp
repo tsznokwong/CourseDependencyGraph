@@ -181,6 +181,7 @@ void MainWindow::treeWidgetItemClicked(){
 
 	CourseCode *courseCode = CourseCode::create(subject->text(0) + item->text((0)));
 	this->courseInfoWidget->treeWidgetItemClicked(courseCode);
+	addCourseLabel(courseCode->description(), 0, 0);
 	delete courseCode;
 	return;
 }
