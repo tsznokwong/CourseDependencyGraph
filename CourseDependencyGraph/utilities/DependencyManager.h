@@ -13,6 +13,7 @@ public:
 
     void loadCSV();
     void linkCourses();
+	Course* findCourse(QString code);
 };
 
 #endif // DEPENDENCYMANAGER_H

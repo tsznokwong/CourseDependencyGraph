@@ -119,4 +119,15 @@ void DependencyManager::linkCourses() {
     }
 }
 
-
+Course* DependencyManager::findCourse(QString code){
+	QString subject = code.left(4);
+	if (!courses.contains(subject)) return nullptr;
+	CourseCode* courseCode = CourseCode::create(code);
+	if (!courses.find(subject)->contains(*courseCode)){
+		delete courseCode;
+		return nullptr;
+	}
+	Course* course = courses.find(subject)->find(*courseCode);
+	delete courseCode;
+	return course;
+}
