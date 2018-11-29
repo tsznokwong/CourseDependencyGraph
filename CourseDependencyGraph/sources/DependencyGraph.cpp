@@ -78,7 +78,7 @@ void DependencyGraph<NodePair>::Edge::setIsStrong(bool isStrongEdge) { this->isS
 DependencyGraphTemplate
 DependencyGraph<NodePair>::DependencyGraph(KeyType key, NodeType node):
     focusNode({ this, key, node }) {
-    this->addNode({ this, key, node });
+    this->addNode(key, node);
 }
 
 DependencyGraphTemplate
