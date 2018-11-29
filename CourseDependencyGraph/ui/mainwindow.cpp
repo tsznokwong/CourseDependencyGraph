@@ -11,11 +11,10 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    dependencyManager(new DependencyManager) {
-	ui->setupUi(this);
-	scene = new QGraphicsScene(this);
-	ui->graphicsView->setScene(scene);
-
+    dependencyManager(new DependencyManager){
+    ui->setupUi(this);
+    scene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(scene);
 
     this->dependencyManager->loadCSV();
     this->dependencyManager->linkCourses();
