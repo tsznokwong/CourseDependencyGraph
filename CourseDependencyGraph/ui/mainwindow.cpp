@@ -31,10 +31,11 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(searchEnterPressed()));
 
 	setupTreeView();
-	addCourseLabel("COMP 2011", 0, 0);
-	addCourseLabel("COMP 2012", 100, -10);
-	addCourseLabel("COMP 2013", 100, 10);
-	addCourseLabel("MMMM8888M", 200, -20);
+	auto x = addCourseLabel("COMP 2011", 0, 0);
+	auto y = addCourseLabel("COMP 2012", 200, -40);
+	connectCourseLabels(x, y, Qt::red);
+	addCourseLabel("COMP 2013", 200, 40);
+	addCourseLabel("MMMM8888M", 400, -60);
 }
 
 
@@ -139,6 +140,11 @@ QGraphicsProxyWidget* MainWindow::addCourseLabel(QString name, qreal x, qreal y)
 	return label;
 }
 
-void MainWindow::connectCourseLabels(QGraphicsProxyWidget* from, QGraphicsProxyWidget* to){
-	qDebug() << QString::number(from->x()) + QChar(' ') + QString::number(from->y());
+void MainWindow::connectCourseLabels(QGraphicsProxyWidget* from, QGraphicsProxyWidget* to, Qt::GlobalColor color){
+	static const qreal Y_OFFSET = 16;
+	static const qreal X_OFFSET = 61;
+	QPen pen(color);
+	pen.setWidth(2);
+	scene->addLine(from->x() + X_OFFSET, from->y() + Y_OFFSET,
+				   to->x() + X_OFFSET, to->y() + Y_OFFSET, pen);
 }

@@ -38,7 +38,8 @@ private slots:
     void searchCourse(const QString &text);
     void searchEnterPressed();
 	QGraphicsProxyWidget* addCourseLabel(QString name, qreal x, qreal y);
-	void connectCourseLabels(QGraphicsProxyWidget* from , QGraphicsProxyWidget* to);
+	void connectCourseLabels(QGraphicsProxyWidget* from , QGraphicsProxyWidget* to, Qt::GlobalColor color);
+
 };
 
 #endif // MAINWINDOW_H
