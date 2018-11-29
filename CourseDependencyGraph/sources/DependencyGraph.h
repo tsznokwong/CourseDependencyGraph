@@ -16,6 +16,8 @@ public:
         KeyType key;
         NodeType data;
         int depth;
+        Node *strongRoot;
+        Node(KeyType key, NodeType data, int depth = 0, Node *strongRoot = nullptr);
     };
 
     class Edge {
@@ -37,9 +39,14 @@ public:
 
     // getter
     const std::set<Node>& getNodes() const;
-    std::vector<Edge> getEdgesFrom(KeyType key) const;
-    std::vector<Edge> getPreviousEdgesFrom(KeyType key) const;
-    std::vector<Edge> getNextEdgesFrom(KeyType key) const;
+    std::vector<Edge> getEdgesFrom(KeyType &key) const;
+    std::vector<Edge> getPreviousEdgesFrom(KeyType &key) const;
+    std::vector<Edge> getNextEdgesFrom(KeyType &key) const;
+
+    bool contains(const KeyType &key) const;
+    unsigned int size() const;
+    bool isEmpty() const;
+
 
     bool addNode(KeyType key, NodeType node);
 
