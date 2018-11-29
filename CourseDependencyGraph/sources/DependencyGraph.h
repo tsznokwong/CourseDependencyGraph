@@ -35,32 +35,35 @@ public:
         DependencyGraph* const parent;
         Node *targetNode;
         Direction direction;
-        bool isStrongEdge;
+        bool isStrong;
         int type;
     public:
-        Edge(DependencyGraph* const parent, Node *targetNode, Direction direction, bool isStrongEdge, int type);
+        Edge(DependencyGraph* const parent, Node *targetNode, Direction direction, int type, bool isStrong = false);
         const Node*& getTargetNode() const;
         const Direction& getDirection() const;
-        const bool& getIsStrongEdge() const;
+        const bool& getIsStrong() const;
         const int& getType() const;
-        void setIsStrongEdge(bool isStrongEdge);
+        void setIsStrong(bool isStrong);
     };
 
 private:
 
     AVLTree<KeyType, std::vector<Edge> > adjacencyTree;
-    std::set<Node> nodes;
+    AVLTree<KeyType, Node> nodeTree;
     Node focusNode;
+
+    void updateIsStrongEdge(const KeyType &fromKey, const KeyType &toKey, bool isStrong);
+    Node* getNode(const KeyType &key);
 
 public:
     DependencyGraph() = delete;
     DependencyGraph(KeyType key, NodeType node);
 
     // getter
-    const std::set<Node>& getNodes() const;
-    std::vector<Edge> getEdgesFrom(KeyType &key) const;
-    std::vector<Edge> getPreviousEdgesFrom(KeyType &key) const;
-    std::vector<Edge> getNextEdgesFrom(KeyType &key) const;
+    const AVLTree<KeyType, Node>& getNodes() const;
+    std::vector<Edge> getEdgesFrom(const KeyType &key) const;
+    std::vector<Edge> getPreviousEdgesFrom(const KeyType &key) const;
+    std::vector<Edge> getNextEdgesFrom(const KeyType &key) const;
 
     bool contains(const KeyType &key) const;
     unsigned int size() const;
@@ -69,6 +72,7 @@ public:
     void updateNodes();
 
     bool addNode(KeyType key, NodeType node);
+    bool addEdge(KeyType fromKey, KeyType toKey, Direction direction, int type);
 
 
 };
