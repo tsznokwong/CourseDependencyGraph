@@ -29,10 +29,10 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(searchEnterPressed()));
 
 	setupTreeView();
-	auto x = addCourseLabel("COMP 2011", 0, 0);
-	auto y = addCourseLabel("COMP 2012", 200, -40);
+	auto x = addCourseLabel("COMP2011", 0, 0);
+	auto y = addCourseLabel("COMP2012", 200, -40);
 	connectCourseLabels(x, y, Qt::red);
-	addCourseLabel("COMP 2013", 200, 40);
+	addCourseLabel("COMP2013", 200, 40);
 	addCourseLabel("MMMM8888M", 400, -60);
 }
 
@@ -155,6 +155,10 @@ void MainWindow::connectCourseLabels(QGraphicsProxyWidget* from, QGraphicsProxyW
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event){
 	if (event->type() == QEvent::FocusIn){
-		qDebug() << static_cast<CourseLabel*>(static_cast<QGraphicsProxyWidget*>(obj)->widget())->getName();
+		// parsing courselabel from QObject
+		QString name = static_cast<CourseLabel*>(static_cast<QGraphicsProxyWidget*>(obj)->widget())->getName();
+		ui->searchBar->setText(name);
+		return true;
 	}
+	return false;
 }
