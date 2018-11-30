@@ -35,7 +35,8 @@ SOURCES += \
     utilities/CSVLoader.cpp \
     utilities/DependencyManager.cpp \
     sources/AVLTree.tpp \
-    ui/CourseInfoWidget.cpp
+    ui/CourseInfoWidget.cpp \
+    sources/DependencyGraph.cpp
 
 HEADERS += \
         ui/mainwindow.h \
@@ -46,7 +47,8 @@ HEADERS += \
     sources/Relationship.h \
     utilities/CSVLoader.h \
     utilities/DependencyManager.h \
-    ui/CourseInfoWidget.h
+    ui/CourseInfoWidget.h \
+    sources/DependencyGraph.h
 
 FORMS += \
         ui/mainwindow.ui \
