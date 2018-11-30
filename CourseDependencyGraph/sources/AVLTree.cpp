@@ -269,3 +269,10 @@ void AVLTree<DataPair>::print(int depth) const{
 	leftSubtree().print(depth+1);
 }
 
+AVLTreeTemplate
+void AVLTree<DataPair>::clear(){
+	while (!empty()){
+		this->remove(this->root->key);
+	}
+}
+
