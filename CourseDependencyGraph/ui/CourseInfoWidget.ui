@@ -105,6 +105,9 @@
            <property name="text">
             <string>Course Code (Credit)</string>
            </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
