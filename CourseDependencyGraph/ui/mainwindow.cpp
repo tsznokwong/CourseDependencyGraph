@@ -18,16 +18,19 @@ MainWindow::MainWindow(QWidget *parent) :
     this->dependencyManager->loadCSV();
     this->dependencyManager->linkCourses();
 
+	// add a courseinfowidget on the right hand side of the screen and link it to the treewidget on the lefthand side
     this->courseInfoWidget = new CourseInfoWidget(this->ui->courseInfoWidget,
                                                   &this->dependencyManager->courses,
                                                   nullptr,
                                                   this->ui->treeWidget);
 
+	// linking searchBar and corresponding member functions
     connect(this->ui->searchBar, SIGNAL(textChanged(const QString&)),
             this, SLOT(searchCourse(const QString&)));
     connect(this->ui->searchBar, SIGNAL(returnPressed()),
             this, SLOT(searchEnterPressed()));
 
+	// populate the Tree View on the left
 	setupTreeView();
 }
 
@@ -41,9 +44,9 @@ MainWindow::~MainWindow() {
 
 void MainWindow::setupTreeView(){
 	ui->treeWidget->setHeaderLabel("Courses");
-	ui->treeWidget->setColumnCount(1);
-	connect(ui->treeWidget, SIGNAL(itemSelectionChanged()),
-			this, SLOT(treeWidgetItemClicked()));\
+	ui->treeWidget->setColumnCount(1); // only one column is needed
+    connect(ui->treeWidget, SIGNAL(itemSelectionChanged()),
+            this->courseInfoWidget, SLOT(treeWidgetItemClicked()));
 
 	vector<QString> subjectVector;
 	vector<CourseCode> courseVector;
@@ -58,6 +61,9 @@ void MainWindow::setupTreeView(){
 	}
 }
 
+/***
+ * Adds an item to the tree view and returns it
+ */
 QTreeWidgetItem* MainWindow::treeViewAddRoot(QString string){
 	QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget);
 	item->setText(0, string);
@@ -65,38 +71,53 @@ QTreeWidgetItem* MainWindow::treeViewAddRoot(QString string){
 	return item;
 }
 
+
+/***
+ * Adds a child to root *parent
+ */
 void MainWindow::treeViewAddChild(QTreeWidgetItem *parent, QString string){
 	QTreeWidgetItem *item = new QTreeWidgetItem();
     item->setText(0, string);
 	parent->addChild(item);
 }
 
+
+/***
+ * searches for course and highlights it in treeview
+ */
 void MainWindow::searchCourse(const QString &text) {
+	// reset the treeview
     this->ui->treeWidget->clearSelection();
     this->ui->treeWidget->collapseAll();
+
     QString keyword = text.toUpper();
     keyword.remove(" ");
     if (keyword == "") { return; }
 
+	//go to the correct root (subject) base on first 4 characters in search bar
     QTreeWidgetItemIterator iterator { this->ui->treeWidget };
     while ((*iterator)->text(0) < keyword.left(4)) {
         ++iterator;
     }
 
+	//highlight the corresponding root
     QTreeWidgetItem *subjectItem = *iterator;
     if (!subjectItem->text(0).startsWith(keyword.left(4))) { return; }
     subjectItem->setSelected(true);
     this->ui->treeWidget->setCurrentItem(subjectItem);
 
+	//selected the corresponding root when 4 characters are inputted and an exact match is found
     if (subjectItem->text(0) != keyword.left(4)) { return; }
     this->ui->treeWidget->expandItem(subjectItem);
 
+	//go to correct child
     ++iterator;
     while ((*iterator)->text(0) < keyword.mid(4)) {
         ++iterator;
     }
     QTreeWidgetItem *codeItem = *iterator;
 
+	//select best-fit child
     if (!codeItem->text(0).startsWith(keyword.mid(4))) { return; }
     this->ui->treeWidget->clearSelection();
     codeItem->setSelected(true);
@@ -113,6 +134,7 @@ void MainWindow::searchEnterPressed() {
     QString keyword = this->ui->searchBar->text().toUpper();
     keyword.remove(" ");
 
+	//auto fill in the search bar base on current highlighted item
     if (item->parent() == nullptr) {
         if (item->text(0).startsWith(keyword.left(4))) {
             this->ui->searchBar->setText(item->text(0));

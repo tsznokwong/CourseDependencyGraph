@@ -4,6 +4,12 @@
 #include <functional>
 using namespace std;
 
+/***
+ * An AVLTree implementation using Desmond's implementation
+ * @Typename KeyType  the datatype for the Key object (must have implemented comparison operators)
+ * @Typename DataType  the datatype for the data object (must have implemented assignment operator)
+ */
+
 template<typename KeyType, typename DataType>
 class AVLTree{
 private:
