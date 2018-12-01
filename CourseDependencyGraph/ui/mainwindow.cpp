@@ -241,13 +241,13 @@ int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth,
 		 for (int j = map.min().key; j < map.max().key; ++j){
 			 if (map.contains(j) && std::find(map.find(j).begin(), map.find(j).end(), courses[i])!= map.find(j).end()){
 				childDepth = j;
-//				qDebug() << courses[i]->getCourseCode().description() << " " << childDepth;
+				qDebug() << courses[i]->getCourseCode().description() << " " << childDepth;
 			 }
 		 }
 		 vector<QGraphicsProxyWidget* > childChildrenLabels;
-		 addCourseLabel(courses[i]->getCourseCode().description(), xOffset-(childDepth-depth*X_OFFSET_PER_BLOCK), yOffset + (i - 0.5 * (courses.size()-1) )*Y_OFFSET_PER_BLOCK);
+		 addCourseLabel(courses[i]->getCourseCode().description(), xOffset-((depth-childDepth)*X_OFFSET_PER_BLOCK), yOffset + (i - 0.5 * (courses.size()-1) )*Y_OFFSET_PER_BLOCK);
 		 int tree_size = printPreRequisite(map, childDepth, courses[i],
-										   xOffset ,  yOffset + (i - 0.5 * (courses.size()-1) )*Y_OFFSET_PER_BLOCK);
+										   xOffset-((depth-childDepth)*X_OFFSET_PER_BLOCK) ,  yOffset + (i - 0.5 * (courses.size()-1) )*Y_OFFSET_PER_BLOCK);
 		 connectCourseLabels(printedLabels.find(parent->getCourseCode().description()), printedLabels.find(courses[i]->getCourseCode().description()), Qt::red);
 		 for (QGraphicsProxyWidget *label: childChildrenLabels){
 			 label->moveBy(0, tree_size * Y_OFFSET_PER_BLOCK/2);
