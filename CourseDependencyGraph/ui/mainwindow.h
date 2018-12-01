@@ -33,7 +33,7 @@ private:
 	QGraphicsRectItem *nodeBoxes;
 	DependencyGraph<QString, Course*> *dependencyGraph = nullptr;
 	Course* selectedCourse = nullptr;
-
+	AVLTree<QString, QGraphicsProxyWidget*> printedLabels;
 
 	void setupTreeView();
 	QTreeWidgetItem* treeViewAddRoot(QString string);
@@ -43,7 +43,8 @@ private:
 	void connectCourseLabels(QGraphicsProxyWidget* from , QGraphicsProxyWidget* to, Qt::GlobalColor color);
 	void clearCourseLabel();
 	void pushPreRequisite(Course* course);
-	int printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth = 0);
+	int printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth = 0, Course* parent = nullptr, qreal xOffset = -200, qreal yOffset = 0);
+	int getPreRequisiteTreeSize(AVLTree<int, vector<Course*>> &map, int depth, Course* parent);
 private slots:
     void searchCourse(const QString &text);
     void searchEnterPressed();

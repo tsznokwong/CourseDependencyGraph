@@ -6,7 +6,7 @@
 #include "ui_mainwindow.h"
 #include "CourseInfoWidget.h"
 #include <QDebug>
-
+#include <math.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -127,16 +127,19 @@ void MainWindow::searchEnterPressed() {
 
 
 QGraphicsProxyWidget* MainWindow::addCourseLabel(QString name, qreal x, qreal y){
+	if (printedLabels.contains(name)) return printedLabels.find(name);
 	QGraphicsProxyWidget *label = scene->addWidget(new CourseLabel(nullptr, name));
 
-    label->setPos(x, y);
+	static const qreal MARGIN = 20;
+	label->setPos(x+MARGIN, y+MARGIN);
 	label->setZValue(1);
 	static const qreal Y_OFFSET = 30;
 	static const qreal X_OFFSET = 120;
 	label->installEventFilter(this);
-	static const qreal MARGIN = 20;
-	scene->addRect(x-MARGIN, y-MARGIN, 1, 1, QPen(Qt::transparent), QBrush(Qt::transparent));
-	scene->addRect(x+X_OFFSET + MARGIN, y + Y_OFFSET + MARGIN, 1, 1, QPen(Qt::transparent), QBrush(Qt::transparent));
+	QRectF boundingRect = scene->itemsBoundingRect();
+	boundingRect.adjust(-20, -20, 20, 29);
+	scene->setSceneRect(boundingRect);
+	printedLabels.add(name, label);
     return label;
 }
 
@@ -151,6 +154,7 @@ void MainWindow::connectCourseLabels(QGraphicsProxyWidget* from, QGraphicsProxyW
 
 void MainWindow::clearCourseLabel(){
 	scene->clear();
+	printedLabels.clear();
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event){
@@ -180,8 +184,6 @@ void MainWindow::treeWidgetItemClicked(){
 	selectedCourse = dependencyManager->findCourse(courseCode->description());
 	delete courseCode;
 	addCourseLabel(selectedCourse->getCourseCode().description(), 0, 0);
-	scene->setSceneRect(scene->itemsBoundingRect());
-
 	if (dependencyGraph == nullptr){
 		dependencyGraph = new DependencyGraph<QString, Course*>(selectedCourse->getCourseCode().description(), selectedCourse);
 	}
@@ -190,7 +192,7 @@ void MainWindow::treeWidgetItemClicked(){
 	pushPreRequisite(selectedCourse);
 	AVLTree<int, vector<Course*>> map;
 	dependencyGraph->getNodesInMap(map);
-	printPreRequisite(map);
+	printPreRequisite(map, 0, selectedCourse);
 	return;
 }
 
@@ -202,23 +204,44 @@ void MainWindow::pushPreRequisite(Course* course){
 	}
 }
 
-int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth){
+
+
+int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth, Course* parent,
+								   qreal xOffset, qreal yOffset){
+	 qreal Y_OFFSET_PER_BLOCK = 500/pow(2,(abs(depth) + 1));
+	 static int X_OFFSET_PER_BLOCK = 200;
+	 //if (!map.contains(depth)) return 0;
+
+
+
+	 vector<Course*> courses = parent->getPrerequisite().getEdges();
+	 int child_size = 0;
+	 for (int i = 0; i < courses.size(); ++i){
+		 int childDepth;
+		 for (int j = map.min().key; j < map.max().key; ++j){
+			 if (map.contains(j) && std::find(map.find(j).begin(), map.find(j).end(), courses[i])!= map.find(j).end()){
+				childDepth = j;
+				qDebug() << courses[i]->getCourseCode().description() << " " << childDepth;
+			 }
+		 }
+		 vector<QGraphicsProxyWidget* > childChildrenLabels;
+		 addCourseLabel(courses[i]->getCourseCode().description(), xOffset, yOffset + (i - 0.5 * (courses.size()-1) )*Y_OFFSET_PER_BLOCK);
+		 int tree_size = printPreRequisite(map, childDepth - 1, courses[i],
+										   xOffset - X_OFFSET_PER_BLOCK ,  yOffset + (i - 0.5 * (courses.size()-1) )*Y_OFFSET_PER_BLOCK);
+		 connectCourseLabels(printedLabels.find(parent->getCourseCode().description()), printedLabels.find(courses[i]->getCourseCode().description()), Qt::red);
+		 for (QGraphicsProxyWidget *label: childChildrenLabels){
+			 label->moveBy(0, tree_size * Y_OFFSET_PER_BLOCK/2);
+		 }
+	 }
+	 return child_size > courses.size()?child_size: courses.size();
+ }
+int MainWindow::getPreRequisiteTreeSize(AVLTree<int, vector<Course*>> &map, int depth, Course* parent){
 	if (!map.contains(depth)) return 0;
-//    vector<Course*> courses = map.find(depth);
-//    for (Course *course: courses){
-//        addCourseLabel(course->getCourseCode().description(), rand()%500, -(depth+1)*100);
-//        printPreRequisite(map, depth - 1);
-//        std::cout << course->getCourseCode().description().toStdString() << endl;
-//    }
-    std::vector<int> depths;
-    map.toKeyVector(depths);
-    for (int depth: depths) {
-        std::cout << "Depth: " << depth << endl;
-        if (depth == 0) { continue; }
-        for (Course *course: map.find(depth)) {
-            addCourseLabel(course->getCourseCode().description(), rand()%200, depth*80);
-            std::cout << "Course: " << course->getCourseCode().description().toStdString() << endl;
-        }
-    }
-	return 0;
+	vector<Course*> courses = parent->getPrerequisite().getEdges();
+	int child_size = 0;/*
+	for (Course *course: parent->getPrerequisite({
+
+	}*/
+	return child_size > courses.size()?child_size: courses.size();
 }
+
