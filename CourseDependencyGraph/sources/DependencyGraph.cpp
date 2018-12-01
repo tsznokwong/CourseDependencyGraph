@@ -9,7 +9,7 @@
 
 
 DependencyGraphTemplate
-DependencyGraph<NodePair>::Node::Node(DependencyGraph * const parent, KeyType key, NodeType data, int depth):
+DependencyGraph<NodePair>::Node::Node(DependencyGraph *parent, KeyType key, NodeType data, int depth):
     parent(parent),
     key(key),
     data(data),
@@ -30,8 +30,12 @@ void DependencyGraph<NodePair>::Node::update(int depth, DependencyNode* root) {
             this->strongRoots.clear();
 
             bool isPrevious = this->direction == PREVIOUS;
-			std::vector<Edge> edges = isPrevious ? this->parent->getPreviousEdgesFrom(this->key):
-												   this->parent->getNextEdgesFrom(this->key);
+            std::vector<Edge> edges;
+            if (isPrevious) {
+                this->parent->getPreviousEdgesFrom(this->key, edges);
+            } else {
+                this->parent->getNextEdgesFrom(this->key, edges);
+            }
             for (Edge edge: edges) {
 				edge.getTargetNode()->update(this->depth + (isPrevious ? -1 : 1), this);
             }
@@ -53,7 +57,7 @@ DependencyGraphTemplate
 const DependencyDirection& DependencyGraph<NodePair>::Node::getDirection() const { return this->direction; }
 
 DependencyGraphTemplate
-DependencyGraph<NodePair>::Edge::Edge(DependencyGraph* const parent, Node *targetNode, Direction direction, int type, bool isStrong):
+DependencyGraph<NodePair>::Edge::Edge(DependencyGraph *parent, Node *targetNode, Direction direction, int type, bool isStrong):
     parent(parent),
     targetNode(targetNode),
     direction(direction),
@@ -93,14 +97,14 @@ DependencyGraphTemplate
 const AVLTree<KeyType, DependencyNode>& DependencyGraph<NodePair>::getNodes() const { return this->nodes; }
 
 DependencyGraphTemplate
-std::vector<DependencyEdge> DependencyGraph<NodePair>::getEdgesFrom(const KeyType &key) const {
-	if (!this->contains(key)) { return std::vector<DependencyEdge>(); }
-    return this->adjacencyTree.find(key);
+void DependencyGraph<NodePair>::getEdgesFrom(const KeyType &key, std::vector<Edge> &edges) const {
+    if (!this->contains(key)) { return; }
+    edges = this->adjacencyTree.find(key);
 }
 
 DependencyGraphTemplate
-std::vector<DependencyEdge> DependencyGraph<NodePair>::getPreviousEdgesFrom(const KeyType &key) const {
-    std::vector<Edge> edges = this->getEdgesFrom(key);
+void DependencyGraph<NodePair>::getPreviousEdgesFrom(const KeyType &key, std::vector<Edge> &edges) const {
+    this->getEdgesFrom(key, edges);
     for (typename std::vector<Edge>::iterator edgeIterator = edges.begin();
          edgeIterator != edges.end();
          ++edgeIterator) {
@@ -109,19 +113,17 @@ std::vector<DependencyEdge> DependencyGraph<NodePair>::getPreviousEdgesFrom(cons
             --edgeIterator;
         }
     }
-    return edges;
 }
 
 DependencyGraphTemplate
-std::vector<DependencyEdge> DependencyGraph<NodePair>::getNextEdgesFrom(const KeyType &key) const {
-    std::vector<Edge> edges = this->getEdgesFrom(key);
+void DependencyGraph<NodePair>::getNextEdgesFrom(const KeyType &key, std::vector<Edge> &edges) const {
+        this->getEdgesFrom(key, edges);
     for (typename std::vector<Edge>::iterator edgeIterator = edges.begin(); edgeIterator != edges.end(); ++edgeIterator) {
         if ((*edgeIterator).direction == NEXT) {
             edgeIterator = edges.erase(edgeIterator);
             --edgeIterator;
         }
     }
-    return edges;
 }
 
 DependencyGraphTemplate
@@ -142,7 +144,8 @@ void DependencyGraph<NodePair>::getNodesInMap(AVLTree<int, std::vector<NodeType>
 
 DependencyGraphTemplate
 void DependencyGraph<NodePair>::updateIsStrongEdge(const KeyType &fromKey, const KeyType &toKey, bool isStrong) {
-    std::vector<Edge> edges = this->getEdgesFrom(fromKey);
+    std::vector<Edge> edges;
+    this->getEdgesFrom(fromKey, edges);
     for (Edge edge: edges) {
         if (edge.getTargetNode()->getKey() == toKey) {
             edge.setIsStrong(isStrong);
@@ -168,7 +171,8 @@ bool DependencyGraph<NodePair>::isEmpty() const {
 
 DependencyGraphTemplate
 void DependencyGraph<NodePair>::updateNodes() {
-    std::vector<Edge> edges = this->getEdgesFrom(this->focusNode.key);
+    std::vector<Edge> edges;
+    this->getEdgesFrom(this->focusNode.key, edges);
     for (Edge edge: edges) {
 		edge.getTargetNode()->update(edge.getDirection() == PREVIOUS ? -1 : 1, &this->focusNode);
     }
