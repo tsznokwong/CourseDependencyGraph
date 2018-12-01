@@ -71,6 +71,7 @@ public:
     bool isEmpty() const;
 
     void updateNodes();
+	void reset(KeyType key, NodeType node);
 
     bool addNode(KeyType key, NodeType node);
     bool addEdge(KeyType fromKey, KeyType toKey, Direction direction, int type);

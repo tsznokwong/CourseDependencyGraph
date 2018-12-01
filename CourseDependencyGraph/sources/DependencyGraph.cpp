@@ -194,3 +194,12 @@ bool DependencyGraph<NodePair>::addEdge(KeyType fromKey, KeyType toKey, Directio
     return true;
 }
 
+DependencyGraphTemplate
+void DependencyGraph<NodePair>::reset(KeyType key, NodeType node){
+	nodeTree.clear();
+	adjacencyTree.clear();
+
+	focusNode = ( this, key, node);
+	this->addNode(key, node);
+}
+
