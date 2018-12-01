@@ -151,7 +151,6 @@ void MainWindow::connectCourseLabels(QGraphicsProxyWidget* from, QGraphicsProxyW
 
 void MainWindow::clearCourseLabel(){
 	scene->clear();
-	scene->setSceneRect(scene->itemsBoundingRect());
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event){
@@ -181,6 +180,7 @@ void MainWindow::treeWidgetItemClicked(){
 	selectedCourse = dependencyManager->findCourse(courseCode->description());
 	delete courseCode;
 	addCourseLabel(selectedCourse->getCourseCode().description(), 0, 0);
+	scene->setSceneRect(scene->itemsBoundingRect());
 
 	if (dependencyGraph == nullptr){
 		dependencyGraph = new DependencyGraph<QString, Course*>(selectedCourse->getCourseCode().description(), selectedCourse);
@@ -198,6 +198,7 @@ void MainWindow::pushPreRequisite(Course* course){
 	for (Course* nextCourse: course->getPrerequisite().getEdges()){
 		dependencyGraph->addNode(nextCourse->getCourseCode().description(), nextCourse);
 		dependencyGraph->addEdge(course->getCourseCode().description(), nextCourse->getCourseCode().description(), dependencyGraph->DependencyGraph::Direction::NEXT, Relationship::Type::PREREQUISITE);
+		pushPreRequisite(nextCourse);
 	}
 }
 
@@ -205,8 +206,8 @@ int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth)
 	if (!map.contains(depth)) return 0;
 	vector<Course*> courses = map.find(depth);
 	for (Course *course: courses){
-		addCourseLabel(course->getCourseCode().description(), rand()*1000, -depth*100);
-		printPreRequisite(map, depth + 1);
+		addCourseLabel(course->getCourseCode().description(), rand()%1000, -(depth+1)*100);
+		printPreRequisite(map, depth - 1);
 	}
 	return 0;
 }
