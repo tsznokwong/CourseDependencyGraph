@@ -165,6 +165,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event){
 }
 
 void MainWindow::treeWidgetItemClicked(){
+	clearCourseLabel();
 	QList<QTreeWidgetItem *> items = ui->treeWidget->selectedItems();
 	if (items.size() == 0) { return; }
 	QTreeWidgetItem *item = items.first();
@@ -177,8 +178,14 @@ void MainWindow::treeWidgetItemClicked(){
 
 	CourseCode *courseCode = CourseCode::create(subject->text(0) + item->text((0)));
 	this->courseInfoWidget->treeWidgetItemClicked(courseCode);
-	clearCourseLabel();
-	addCourseLabel(courseCode->description(), 0, 0);
+	selectedCourse = dependencyManager->findCourse(courseCode->description());
 	delete courseCode;
+	addCourseLabel(selectedCourse->getCourseCode().description(), 0, 0);
+
+	if (dependencyGraph == nullptr){
+		dependencyGraph = new DependencyGraph<QString, Course*>(selectedCourse->getCourseCode().description(), selectedCourse);
+	}
+	else
+		dependencyGraph->reset(selectedCourse->getCourseCode().description(), selectedCourse);
 	return;
 }

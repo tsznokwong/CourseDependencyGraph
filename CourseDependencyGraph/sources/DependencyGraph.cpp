@@ -199,7 +199,8 @@ void DependencyGraph<NodePair>::reset(KeyType key, NodeType node){
 	nodeTree.clear();
 	adjacencyTree.clear();
 
-	focusNode = ( this, key, node);
+	focusNode.key = key;
+	focusNode.data = node;
 	this->addNode(key, node);
 }
 

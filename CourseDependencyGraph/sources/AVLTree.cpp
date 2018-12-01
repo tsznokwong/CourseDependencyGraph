@@ -272,8 +272,7 @@ void AVLTree<DataPair>::print(int depth) const{
 
 AVLTreeTemplate
 void AVLTree<DataPair>::clear(){
-	while (!empty()){
-		this->remove(this->root->key);
-	}
+	delete root;
+	root = nullptr;
 }
 

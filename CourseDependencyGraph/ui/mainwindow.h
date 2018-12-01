@@ -9,6 +9,7 @@
 #include <QGraphicsTextItem>
 #include "CourseLabel.h"
 #include <QGraphicsProxyWidget>
+#include "sources/DependencyGraph.tpp"
 #include <QEvent>
 
 namespace Ui {
@@ -21,7 +22,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+	~MainWindow() override;
 	bool eventFilter(QObject *obj, QEvent *ev) override;
 
 private:
@@ -30,6 +31,8 @@ private:
     CourseInfoWidget  *courseInfoWidget;
 	QGraphicsScene *scene;
 	QGraphicsRectItem *nodeBoxes;
+	DependencyGraph<QString, Course*> *dependencyGraph = nullptr;
+	Course* selectedCourse = nullptr;
 
 
 	void setupTreeView();
