@@ -227,7 +227,8 @@ void MainWindow::pushPreRequisite(Course* course){
 
 int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth, Course* parent,
 								   qreal xOffset, qreal yOffset){
-	 qreal Y_OFFSET_PER_BLOCK = 500/pow(2,(abs(depth) + 1));
+	int maxDepth = map.min().key;
+	 qreal Y_OFFSET_PER_BLOCK = 25*pow(2,depth-maxDepth);
 	 static int X_OFFSET_PER_BLOCK = 200;
 	 //if (!map.contains(depth)) return 0;
 
