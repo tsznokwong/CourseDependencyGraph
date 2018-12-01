@@ -187,5 +187,26 @@ void MainWindow::treeWidgetItemClicked(){
 	}
 	else
 		dependencyGraph->reset(selectedCourse->getCourseCode().description(), selectedCourse);
+	pushPreRequisite(selectedCourse);
+	AVLTree<int, vector<Course*>> map;
+	dependencyGraph->getNodesInMap(map);
+	printPreRequisite(map);
 	return;
+}
+
+void MainWindow::pushPreRequisite(Course* course){
+	for (Course* nextCourse: course->getPrerequisite().getEdges()){
+		dependencyGraph->addNode(nextCourse->getCourseCode().description(), nextCourse);
+		dependencyGraph->addEdge(course->getCourseCode().description(), nextCourse->getCourseCode().description(), dependencyGraph->DependencyGraph::Direction::NEXT, Relationship::Type::PREREQUISITE);
+	}
+}
+
+int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth){
+	if (!map.contains(depth)) return 0;
+	vector<Course*> courses = map.find(depth);
+	for (Course *course: courses){
+		addCourseLabel(course->getCourseCode().description(), rand()*1000, -depth*100);
+		printPreRequisite(map, depth + 1);
+	}
+	return 0;
 }

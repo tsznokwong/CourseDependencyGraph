@@ -42,7 +42,8 @@ private:
 	QGraphicsProxyWidget* addCourseLabel(QString name, qreal x, qreal y);
 	void connectCourseLabels(QGraphicsProxyWidget* from , QGraphicsProxyWidget* to, Qt::GlobalColor color);
 	void clearCourseLabel();
-
+	void pushPreRequisite(Course* course);
+	int printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth = 0);
 private slots:
     void searchCourse(const QString &text);
     void searchEnterPressed();
