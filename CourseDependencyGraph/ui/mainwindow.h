@@ -31,7 +31,6 @@ private:
 	QGraphicsScene *scene;
 	QGraphicsRectItem *nodeBoxes;
 
-	AVLTree<QString, QGraphicsProxyWidget*> courseLabels;
 
 	void setupTreeView();
 	QTreeWidgetItem* treeViewAddRoot(QString string);

@@ -129,7 +129,6 @@ void MainWindow::searchEnterPressed() {
 QGraphicsProxyWidget* MainWindow::addCourseLabel(QString name, qreal x, qreal y){
 	QGraphicsProxyWidget *label = scene->addWidget(new CourseLabel(nullptr, name));
 
-	courseLabels.add(name, label);
     label->setPos(x, y);
 	label->setZValue(1);
 	static const qreal Y_OFFSET = 30;
@@ -151,11 +150,8 @@ void MainWindow::connectCourseLabels(QGraphicsProxyWidget* from, QGraphicsProxyW
 }
 
 void MainWindow::clearCourseLabel(){
-	vector<QGraphicsProxyWidget*> courseLabelVector;
-	courseLabels.toVector(courseLabelVector);
-	for (QGraphicsProxyWidget *courseLabel: courseLabelVector){
-		scene->removeItem(courseLabel);
-	}
+	scene->clear();
+	scene->setSceneRect(scene->itemsBoundingRect());
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event){
@@ -181,6 +177,7 @@ void MainWindow::treeWidgetItemClicked(){
 
 	CourseCode *courseCode = CourseCode::create(subject->text(0) + item->text((0)));
 	this->courseInfoWidget->treeWidgetItemClicked(courseCode);
+	clearCourseLabel();
 	addCourseLabel(courseCode->description(), 0, 0);
 	delete courseCode;
 	return;
