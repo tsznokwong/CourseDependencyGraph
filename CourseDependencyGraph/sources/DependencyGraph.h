@@ -28,6 +28,7 @@ public:
         const int& getDepth() const;
         const std::vector<Node*>& getStrongRoots() const;
         const Direction& getDirection() const;
+        void setDepth(int depth);
 		friend DependencyGraph;
     };
 

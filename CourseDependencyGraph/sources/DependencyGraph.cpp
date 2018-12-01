@@ -21,8 +21,8 @@ DependencyGraph<NodePair>::Node::Node(DependencyGraph *parent, KeyType key, Node
 
 DependencyGraphTemplate
 void DependencyGraph<NodePair>::Node::update(int depth, DependencyNode* root) {
-    if (depth <= this->depth) {
-        if (depth > this->depth) {
+    if (abs(depth) >= abs(this->depth)) {
+        if (abs(depth) > abs(this->depth)) {
             this->depth = depth;
             for (Node *root: this->strongRoots) {
 				this->parent->updateIsStrongEdge(root->key, this->key, false);
@@ -37,12 +37,13 @@ void DependencyGraph<NodePair>::Node::update(int depth, DependencyNode* root) {
                 this->parent->getNextEdgesFrom(this->key, edges);
             }
             for (Edge edge: edges) {
-				edge.getTargetNode()->update(this->depth + (isPrevious ? -1 : 1), this);
+                edge.getTargetNode()->update(this->depth + (isPrevious ? -1 : 1), this);
             }
         }
 		this->strongRoots.push_back(root);
 		this->parent->updateIsStrongEdge(root->key, this->key, true);
     }
+
 }
 
 DependencyGraphTemplate
@@ -55,6 +56,12 @@ DependencyGraphTemplate
 const std::vector<DependencyNode*>& DependencyGraph<NodePair>::Node::getStrongRoots() const { return this->strongRoots; }
 DependencyGraphTemplate
 const DependencyDirection& DependencyGraph<NodePair>::Node::getDirection() const { return this->direction; }
+
+DependencyGraphTemplate
+void DependencyGraph<NodePair>::Node::setDepth(int depth) {
+    this->depth = depth;
+}
+
 
 DependencyGraphTemplate
 DependencyGraph<NodePair>::Edge::Edge(DependencyGraph *parent, Node *targetNode, Direction direction, int type, bool isStrong):
@@ -192,8 +199,10 @@ bool DependencyGraph<NodePair>::addEdge(KeyType fromKey, KeyType toKey, Directio
     if (!this->contains(fromKey) || !this->contains(toKey)) { return false; }
 
     std::vector<Edge> &edges = this->adjacencyTree.find(fromKey);
+    Node *fromNode = this->getNode(fromKey);
     Node *toNode = this->getNode(toKey);
-	Edge edge(this, toNode, direction, type);
+    toNode->setDepth(fromNode->getDepth() + (direction == PREVIOUS ? -1 : 1));
+    Edge edge(this, toNode, direction, type);
 	edges.push_back(edge);
     this->updateNodes();
 

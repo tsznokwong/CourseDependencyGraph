@@ -197,17 +197,28 @@ void MainWindow::treeWidgetItemClicked(){
 void MainWindow::pushPreRequisite(Course* course){
 	for (Course* nextCourse: course->getPrerequisite().getEdges()){
 		dependencyGraph->addNode(nextCourse->getCourseCode().description(), nextCourse);
-		dependencyGraph->addEdge(course->getCourseCode().description(), nextCourse->getCourseCode().description(), dependencyGraph->DependencyGraph::Direction::NEXT, Relationship::Type::PREREQUISITE);
+        dependencyGraph->addEdge(course->getCourseCode().description(), nextCourse->getCourseCode().description(), dependencyGraph->DependencyGraph::Direction::PREVIOUS, Relationship::Type::PREREQUISITE);
 		pushPreRequisite(nextCourse);
 	}
 }
 
 int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth){
 	if (!map.contains(depth)) return 0;
-	vector<Course*> courses = map.find(depth);
-	for (Course *course: courses){
-		addCourseLabel(course->getCourseCode().description(), rand()%1000, -(depth+1)*100);
-		printPreRequisite(map, depth - 1);
-	}
+//    vector<Course*> courses = map.find(depth);
+//    for (Course *course: courses){
+//        addCourseLabel(course->getCourseCode().description(), rand()%500, -(depth+1)*100);
+//        printPreRequisite(map, depth - 1);
+//        std::cout << course->getCourseCode().description().toStdString() << endl;
+//    }
+    std::vector<int> depths;
+    map.toKeyVector(depths);
+    for (int depth: depths) {
+        std::cout << "Depth: " << depth << endl;
+        if (depth == 0) { continue; }
+        for (Course *course: map.find(depth)) {
+            addCourseLabel(course->getCourseCode().description(), rand()%200, depth*80);
+            std::cout << "Course: " << course->getCourseCode().description().toStdString() << endl;
+        }
+    }
 	return 0;
 }
