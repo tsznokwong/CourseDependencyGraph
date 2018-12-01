@@ -274,5 +274,6 @@ AVLTreeTemplate
 void AVLTree<DataPair>::clear(){
 	delete root;
 	root = nullptr;
+	size = 0;
 }
 
