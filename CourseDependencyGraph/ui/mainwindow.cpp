@@ -46,7 +46,7 @@ void MainWindow::setupTreeView(){
 	ui->treeWidget->setHeaderLabel("Courses");
 	ui->treeWidget->setColumnCount(1); // only one column is needed
     connect(ui->treeWidget, SIGNAL(itemSelectionChanged()),
-            this->courseInfoWidget, SLOT(treeWidgetItemClicked()));
+            this, SLOT(treeWidgetItemClicked()));
 
 	vector<QString> subjectVector;
 	vector<CourseCode> courseVector;
