@@ -37,7 +37,8 @@ SOURCES += \
     sources/AVLTree.tpp \
     ui/CourseInfoWidget.cpp \
     ui/CourseLabel.cpp \
-    sources/DependencyGraph.cpp
+    sources/DependencyGraph.cpp \
+    sources/DependencyGraph.tpp
 
 HEADERS += \
         ui/mainwindow.h \
@@ -50,7 +51,7 @@ HEADERS += \
     utilities/DependencyManager.h \
     ui/CourseInfoWidget.h \
     ui/CourseLabel.h \
-    sources/DependencyGraph.h\
+    sources/DependencyGraph.h 
 
 FORMS += \
         ui/mainwindow.ui \
