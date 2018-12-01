@@ -19,6 +19,7 @@ public:
                               const Course* const course = nullptr,
                               const QTreeWidget* const treeWidget = nullptr);
     ~CourseInfoWidget();
+	void treeWidgetItemClicked(CourseCode *courseCode);
 
 private:
     Ui::CourseInfoWidget *ui;
@@ -27,8 +28,6 @@ private:
     const QTreeWidget *treeWidget;
     void setCourseInfo();
 
-private slots:
-    void treeWidgetItemClicked();
 
 };
 

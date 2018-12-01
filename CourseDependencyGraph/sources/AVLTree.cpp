@@ -249,13 +249,14 @@ void AVLTree<DataPair>::toKeyVector(vector<KeyType>& vector) const{
 
 AVLTreeTemplate
 void AVLTree<DataPair>::toVector(vector<DataType>& vector) const{
-	if (!leftSubtree().empty()){
-		leftSubtree().toVector(vector);
-	}
-	vector.push_back(root->data);
-	if (!rightSubtree().empty()){
-		rightSubtree().toVector(vector);
-	}
+    if (empty()) return;
+    if (!leftSubtree().empty()){
+            leftSubtree().toVector(vector);
+    }
+    vector.push_back(root->data);
+    if (!rightSubtree().empty()){
+            rightSubtree().toVector(vector);
+    }
 }
 
 AVLTreeTemplate
@@ -267,5 +268,12 @@ void AVLTree<DataPair>::print(int depth) const{
 	}
 	cout << root->data << endl;
 	leftSubtree().print(depth+1);
+}
+
+AVLTreeTemplate
+void AVLTree<DataPair>::clear(){
+	delete root;
+	root = nullptr;
+	size = 0;
 }
 

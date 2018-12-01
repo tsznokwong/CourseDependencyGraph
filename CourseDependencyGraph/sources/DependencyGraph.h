@@ -14,36 +14,44 @@ public:
 
     class Node {
     private:
-        DependencyGraph* const parent;
+        DependencyGraph* parent;
         KeyType key;
         NodeType data;
         int depth;
         std::vector<Node*> strongRoots;
         Direction direction;
     public:
-        Node(DependencyGraph* const parent, KeyType key, NodeType data, int depth = 0);
+        Node(DependencyGraph* parent, KeyType key, NodeType data, int depth = 0);
         void update(int depth, Node* root);
         const KeyType& getKey() const;
         const NodeType& getNode() const;
         const int& getDepth() const;
         const std::vector<Node*>& getStrongRoots() const;
         const Direction& getDirection() const;
+        void setDepth(int depth);
+		friend DependencyGraph;
     };
 
     class Edge {
     private:
-        DependencyGraph* const parent;
+        DependencyGraph* parent;
         Node *targetNode;
         Direction direction;
         bool isStrong;
         int type;
     public:
-        Edge(DependencyGraph* const parent, Node *targetNode, Direction direction, int type, bool isStrong = false);
-        const Node*& getTargetNode() const;
+        Edge(DependencyGraph* parent, Node *targetNode, Direction direction, int type, bool isStrong = false);
+        Edge() = default;
+        Edge(const Edge& edge) = default;
+		const Node* getTargetNode() const;
+		Node* getTargetNode();
         const Direction& getDirection() const;
         const bool& getIsStrong() const;
         const int& getType() const;
         void setIsStrong(bool isStrong);
+		friend DependencyGraph;
+		Edge& operator=(Edge&& rhs) = default;
+        Edge& operator=(const Edge &rhs) = default;
     };
 
 private:
@@ -61,9 +69,9 @@ public:
 
     // getter
     const AVLTree<KeyType, Node>& getNodes() const;
-    std::vector<Edge> getEdgesFrom(const KeyType &key) const;
-    std::vector<Edge> getPreviousEdgesFrom(const KeyType &key) const;
-    std::vector<Edge> getNextEdgesFrom(const KeyType &key) const;
+    void getEdgesFrom(const KeyType &key, std::vector<Edge> &edges) const;
+    void getPreviousEdgesFrom(const KeyType &key, std::vector<Edge> &edges) const;
+    void getNextEdgesFrom(const KeyType &key, std::vector<Edge> &edges) const;
     void getNodesInMap(AVLTree<int, std::vector<NodeType> > &map) const;
 
     bool contains(const KeyType &key) const;
@@ -71,6 +79,7 @@ public:
     bool isEmpty() const;
 
     void updateNodes();
+	void reset(KeyType key, NodeType node);
 
     bool addNode(KeyType key, NodeType node);
     bool addEdge(KeyType fromKey, KeyType toKey, Direction direction, int type);

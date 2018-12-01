@@ -50,6 +50,8 @@ public:
 	void toKeyVector(vector<KeyType>& vector) const;
 	void toVector(vector<DataType>& vector) const;
     void print(int depth = 0) const;
+	void clear();
+
 };
 
 #endif // AVLTREE_H

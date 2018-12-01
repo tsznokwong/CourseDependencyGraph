@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>600</height>
+    <width>1040</width>
+    <height>690</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>900</width>
-    <height>600</height>
+    <width>1040</width>
+    <height>690</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>900</width>
-    <height>600</height>
+    <width>1040</width>
+    <height>690</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -31,8 +31,8 @@
      <rect>
       <x>0</x>
       <y>24</y>
-      <width>150</width>
-      <height>576</height>
+      <width>151</width>
+      <height>666</height>
      </rect>
     </property>
     <column>
@@ -44,17 +44,29 @@
    <widget class="QWidget" name="courseInfoWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>600</x>
+      <x>790</x>
       <y>0</y>
-      <width>300</width>
-      <height>600</height>
+      <width>251</width>
+      <height>691</height>
      </rect>
     </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>251</width>
+      <height>691</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>251</width>
+      <height>691</height>
+     </size>
     </property>
    </widget>
    <widget class="QLineEdit" name="searchBar">
@@ -71,6 +83,42 @@
     </property>
     <property name="placeholderText">
      <string>Course Code</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>0</y>
+      <width>641</width>
+      <height>691</height>
+     </rect>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustIgnored</enum>
+    </property>
+    <property name="backgroundBrush">
+     <brush brushstyle="SolidPattern">
+      <color alpha="255">
+       <red>243</red>
+       <green>243</green>
+       <blue>243</blue>
+      </color>
+     </brush>
+    </property>
+    <property name="sceneRect">
+     <rectf>
+      <x>0.000000000000000</x>
+      <y>0.000000000000000</y>
+      <width>0.000000000000000</width>
+      <height>0.000000000000000</height>
+     </rectf>
+    </property>
+    <property name="renderHints">
+     <set>QPainter::Antialiasing|QPainter::TextAntialiasing</set>
+    </property>
+    <property name="dragMode">
+     <enum>QGraphicsView::NoDrag</enum>
     </property>
    </widget>
   </widget>
