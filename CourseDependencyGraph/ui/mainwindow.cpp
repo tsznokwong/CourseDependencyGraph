@@ -193,6 +193,16 @@ void MainWindow::treeWidgetItemClicked(){
 	AVLTree<int, vector<Course*>> map;
 	dependencyGraph->getNodesInMap(map);
 	printPreRequisite(map, 0, selectedCourse);
+
+    std::vector<int> depths;
+    map.toKeyVector(depths);
+    for (int depth: depths) {
+        qDebug() << depth;
+        for (Course* course: map.find(depth)) {
+            qDebug() << course->getCourseCode().description();
+        }
+    }
+
 	return;
 }
 
@@ -221,7 +231,7 @@ int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth,
 		 for (int j = map.min().key; j < map.max().key; ++j){
 			 if (map.contains(j) && std::find(map.find(j).begin(), map.find(j).end(), courses[i])!= map.find(j).end()){
 				childDepth = j;
-				qDebug() << courses[i]->getCourseCode().description() << " " << childDepth;
+//				qDebug() << courses[i]->getCourseCode().description() << " " << childDepth;
 			 }
 		 }
 		 vector<QGraphicsProxyWidget* > childChildrenLabels;
