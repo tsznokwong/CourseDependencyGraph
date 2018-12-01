@@ -25,26 +25,26 @@ void DependencyGraph<NodePair>::Node::update(int depth, DependencyNode* root) {
         if (depth > this->depth) {
             this->depth = depth;
             for (Node *root: this->strongRoots) {
-                this->parent.updateIsStrongEdge(root->key, this->key, false);
+				this->parent->updateIsStrongEdge(root->key, this->key, false);
             }
             this->strongRoots.clear();
 
             bool isPrevious = this->direction == PREVIOUS;
-            std::vector<Edge> edges = isPrevious ? this->parent.getPreviousEdgesFrom(this->key):
-                                                   this->parent.getNextEdgesFrom(this->key);
+			std::vector<Edge> edges = isPrevious ? this->parent->getPreviousEdgesFrom(this->key):
+												   this->parent->getNextEdgesFrom(this->key);
             for (Edge edge: edges) {
-                edge.getTargetNode()->updateNode(this->depth + (isPrevious ? -1 : 1), this);
+				edge.getTargetNode()->update(this->depth + (isPrevious ? -1 : 1), this);
             }
         }
-        this->strongRoots.append(root);
-        this->parent.updateIsStrongEdge(root->key, this->key, true);
+		this->strongRoots.push_back(root);
+		this->parent->updateIsStrongEdge(root->key, this->key, true);
     }
 }
 
 DependencyGraphTemplate
 const KeyType& DependencyGraph<NodePair>::Node::getKey() const { return this->key; }
 DependencyGraphTemplate
-const NodeType& DependencyGraph<NodePair>::Node::getNode() const { return this->node; }
+const NodeType& DependencyGraph<NodePair>::Node::getNode() const { return this->data; }
 DependencyGraphTemplate
 const int& DependencyGraph<NodePair>::Node::getDepth() const { return this->depth; }
 DependencyGraphTemplate
@@ -64,7 +64,9 @@ DependencyGraph<NodePair>::Edge::Edge(DependencyGraph* const parent, Node *targe
 
 
 DependencyGraphTemplate
-const DependencyNode*& DependencyGraph<NodePair>::Edge::getTargetNode() const { return this->targetNode; }
+const DependencyNode* DependencyGraph<NodePair>::Edge::getTargetNode() const { return this->targetNode; }
+DependencyGraphTemplate
+DependencyNode* DependencyGraph<NodePair>::Edge::getTargetNode(){ return this->targetNode; }
 DependencyGraphTemplate
 const DependencyDirection& DependencyGraph<NodePair>::Edge::getDirection() const { return this->direction; }
 DependencyGraphTemplate
@@ -73,7 +75,7 @@ DependencyGraphTemplate
 const int& DependencyGraph<NodePair>::Edge::getType() const { return this->type; }
 
 DependencyGraphTemplate
-void DependencyGraph<NodePair>::Edge::setIsStrong(bool isStrongEdge) { this->isStrongEdge = isStrongEdge; }
+void DependencyGraph<NodePair>::Edge::setIsStrong(bool isStrongEdge) { this->isStrong = isStrongEdge; }
 
 DependencyGraphTemplate
 DependencyGraph<NodePair>::DependencyGraph(KeyType key, NodeType node):
@@ -92,7 +94,7 @@ const AVLTree<KeyType, DependencyNode>& DependencyGraph<NodePair>::getNodes() co
 
 DependencyGraphTemplate
 std::vector<DependencyEdge> DependencyGraph<NodePair>::getEdgesFrom(const KeyType &key) const {
-    if (!this->contain(key)) { return std::vector<DependencyEdge>(); }
+	if (!this->contains(key)) { return std::vector<DependencyEdge>(); }
     return this->adjacencyTree.find(key);
 }
 
@@ -102,7 +104,7 @@ std::vector<DependencyEdge> DependencyGraph<NodePair>::getPreviousEdgesFrom(cons
     for (typename std::vector<Edge>::iterator edgeIterator = edges.begin();
          edgeIterator != edges.end();
          ++edgeIterator) {
-        if ((*edgeIterator).direction == PREVIOUS) {
+		if ((*edgeIterator).direction == PREVIOUS) {
             edgeIterator = edges.erase(edgeIterator);
             --edgeIterator;
         }
@@ -168,7 +170,7 @@ DependencyGraphTemplate
 void DependencyGraph<NodePair>::updateNodes() {
     std::vector<Edge> edges = this->getEdgesFrom(this->focusNode.key);
     for (Edge edge: edges) {
-        edge.getTargetNode()->updateNode(edge.getDirection() == PREVIOUS ? -1 : 1, this->focusNode);
+		edge.getTargetNode()->update(edge.getDirection() == PREVIOUS ? -1 : 1, &this->focusNode);
     }
 }
 
@@ -187,8 +189,8 @@ bool DependencyGraph<NodePair>::addEdge(KeyType fromKey, KeyType toKey, Directio
 
     std::vector<Edge> &edges = this->adjacencyTree.find(fromKey);
     Node *toNode = this->getNode(toKey);
-
-    edges.push_back({ this, toNode, direction, type});
+	Edge edge(this, toNode, direction, type);
+	edges.push_back(edge);
     this->updateNodes();
 
     return true;

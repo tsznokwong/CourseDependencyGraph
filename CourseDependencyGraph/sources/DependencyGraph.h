@@ -40,11 +40,15 @@ public:
         int type;
     public:
         Edge(DependencyGraph* const parent, Node *targetNode, Direction direction, int type, bool isStrong = false);
-        const Node*& getTargetNode() const;
+		Edge(Edge& edge) = default;
+		const Node* getTargetNode() const;
+		Node* getTargetNode();
         const Direction& getDirection() const;
         const bool& getIsStrong() const;
         const int& getType() const;
         void setIsStrong(bool isStrong);
+		friend DependencyGraph;
+		Edge& operator=(Edge&& rhs) = default;
     };
 
 private:
