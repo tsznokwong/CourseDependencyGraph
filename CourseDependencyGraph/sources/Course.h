@@ -10,13 +10,16 @@
 
 class Course {
 private:
+    // Course identifier
     CourseCode courseCode;
 
+    // key informations
     QString title;
     int credit;
     QString description;
     QString attribute;
 
+    // Course relationship members
     Relationship exclusion;
     Relationship prerequisite;
     Relationship corequisite;
@@ -24,10 +27,10 @@ private:
     Relationship notAvailableAfter;
     Relationship availableAfter;
 
+    // miscellaneous informations
     QString vector;
     QString previousCode;
     std::vector<Semester> offerIn;
-
 
 public:
     Course(CourseCode courseCode,
@@ -67,8 +70,10 @@ public:
     // stream operator
     friend std::ostream& operator<<(std::ostream &os, const Course& course);
 
+    // QString description of all members.
     QString dubugDescription();
 
+    // Course relationship operation
     void addNotAvailableAfter(Course* const course);
     void addAvaiableAfter(Course* const course);
     void linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses);

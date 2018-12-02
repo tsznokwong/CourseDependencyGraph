@@ -19,15 +19,15 @@ public:
                               const Course* const course = nullptr,
                               const QTreeWidget* const treeWidget = nullptr);
     ~CourseInfoWidget();
-	void treeWidgetItemClicked(CourseCode *courseCode);
+    void treeWidgetItemSelected(CourseCode *courseCode);
 
 private:
     Ui::CourseInfoWidget *ui;
     const Course *course;
     const AVLTree<QString, AVLTree<CourseCode, Course* >* >* courses;
     const QTreeWidget *treeWidget;
-    void setCourseInfo();
 
+    void setCourseInfo();
 
 };
 

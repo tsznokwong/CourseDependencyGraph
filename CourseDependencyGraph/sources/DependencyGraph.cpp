@@ -21,28 +21,32 @@ DependencyGraph<NodePair>::Node::Node(DependencyGraph *parent, KeyType key, Node
 
 DependencyGraphTemplate
 void DependencyGraph<NodePair>::Node::update(int depth, DependencyNode* root) {
-    if (abs(depth) >= abs(this->depth)) {
-        if (abs(depth) > abs(this->depth)) {
-            this->depth = depth;
-            for (Node *root: this->strongRoots) {
-				this->parent->updateIsStrongEdge(root->key, this->key, false);
-            }
-            this->strongRoots.clear();
 
-            bool isPrevious = this->direction == PREVIOUS;
-            std::vector<Edge> edges;
-            if (isPrevious) {
-                this->parent->getPreviousEdgesFrom(this->key, edges);
-            } else {
-                this->parent->getNextEdgesFrom(this->key, edges);
-            }
-            for (Edge edge: edges) {
-                edge.getTargetNode()->update(this->depth + (isPrevious ? -1 : 1), this);
-            }
+    // If current depth of the node is larger than the new value in terms of magnitude, ignore.
+    if (abs(depth) < abs(this->depth)) { return; }
+
+    // If current depth of the node is smaller than the new value in terms of magnitude, update new depth.
+    if (abs(depth) > abs(this->depth)) {
+        this->depth = depth;
+        for (Node *root: this->strongRoots) {
+            this->parent->updateIsStrongEdge(root->key, this->key, false);
         }
-		this->strongRoots.push_back(root);
-		this->parent->updateIsStrongEdge(root->key, this->key, true);
+        this->strongRoots.clear();
+
+        bool isPrevious = this->direction == PREVIOUS;
+        std::vector<Edge> edges;
+        if (isPrevious) {
+            this->parent->getPreviousEdgesFrom(this->key, edges);
+        } else {
+            this->parent->getNextEdgesFrom(this->key, edges);
+        }
+        // Recursive call to update directed nodes from current node.
+        for (Edge edge: edges) {
+            edge.getTargetNode()->update(this->depth + (isPrevious ? -1 : 1), this);
+        }
     }
+    this->strongRoots.push_back(root);
+    this->parent->updateIsStrongEdge(root->key, this->key, true);
 
 }
 
@@ -133,6 +137,11 @@ void DependencyGraph<NodePair>::getNextEdgesFrom(const KeyType &key, std::vector
     }
 }
 
+/**
+ * Returning an abstract map of AVLTree of the graph.
+ * Key value is the depth in the map.
+ * Data value is a vector of nodes in the depth identified in key value.
+ */
 DependencyGraphTemplate
 void DependencyGraph<NodePair>::getNodesInMap(AVLTree<int, std::vector<NodeType> > &map) const {
     std::vector<Node> nodes;
@@ -187,6 +196,7 @@ void DependencyGraph<NodePair>::updateNodes() {
 
 DependencyGraphTemplate
 bool DependencyGraph<NodePair>::addNode(KeyType key, NodeType node) {
+    // If node already exists, add node failed.
     if (this->contains(key)) { return false; }
     Node newNode { this, key, node };
     this->nodeTree.add(newNode.getKey(), newNode);
@@ -196,18 +206,15 @@ bool DependencyGraph<NodePair>::addNode(KeyType key, NodeType node) {
 
 DependencyGraphTemplate
 bool DependencyGraph<NodePair>::addEdge(KeyType fromKey, KeyType toKey, Direction direction, int type) {
+    // If the nodes are not exists, add edge failed.
     if (!this->contains(fromKey) || !this->contains(toKey)) { return false; }
 
     std::vector<Edge> &edges = this->adjacencyTree.find(fromKey);
     Node *fromNode = this->getNode(fromKey);
     Node *toNode = this->getNode(toKey);
-    if (toNode->depth == 0 || abs(toNode->depth) <= abs(fromNode->depth)) {
-        toNode->setDepth(fromNode->getDepth() + (direction == PREVIOUS ? -1 : 1));
-    }
     Edge edge(this, toNode, direction, type);
     edges.push_back(edge);
-    this->updateNodes();
-
+    toNode->update(fromNode->getDepth() + (direction == PREVIOUS ? -1 : 1), fromNode);
     return true;
 }
 

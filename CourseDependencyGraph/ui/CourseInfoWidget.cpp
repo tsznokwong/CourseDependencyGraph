@@ -24,6 +24,10 @@ CourseInfoWidget::~CourseInfoWidget() {
     delete ui;
 }
 
+/**
+ * @brief CourseInfoWidget::setCourseInfo.
+ * Setting information of current selected course.
+ */
 void CourseInfoWidget::setCourseInfo() {
     if (this->course == nullptr) { return; }
 
@@ -44,59 +48,24 @@ void CourseInfoWidget::setCourseInfo() {
 
     this->ui->descriptionLabel->setText(this->course->getDescription());
 
-//    if (this->course->getExclusion().getDescription() != "-") {
-//        this->ui->exclusionLabel->show();
-        this->ui->exclusionLabel->setText("Exclusion: " + this->course->getExclusion().getDescription());
-//    } else {
-//        this->ui->exclusionLabel->hide();
-//    }
+    this->ui->exclusionLabel->setText("Exclusion: " + this->course->getExclusion().getDescription());
 
-//    if (this->course->getPrerequisite().getDescription() != "-") {
-//        this->ui->prerequisiteLabel->show();
-        this->ui->prerequisiteLabel->setText("Prerequisites: " + this->course->getPrerequisite().getDescription());
-//    } else {
-//        this->ui->prerequisiteLabel->hide();
-//    }
+    this->ui->prerequisiteLabel->setText("Prerequisites: " + this->course->getPrerequisite().getDescription());
 
-//    if (this->course->getCorequisite().getDescription() != "-") {
-//        this->ui->corequisiteLabel->show();
-        this->ui->corequisiteLabel->setText("Corequisites: " + this->course->getCorequisite().getDescription());
-//    } else {
-//        this->ui->corequisiteLabel->hide();
-//    }
+    this->ui->corequisiteLabel->setText("Corequisites: " + this->course->getCorequisite().getDescription());
 
-//    if (this->course->getColist().getDescription() != "-") {
-//        this->ui->colistLabel->show();
-        this->ui->colistLabel->setText("Colists: " + this->course->getColist().getDescription());
-//    } else {
-//        this->ui->colistLabel->hide();
-//    }
+    this->ui->colistLabel->setText("Colists: " + this->course->getColist().getDescription());
 
-//    if (this->course->getAvailableAfter().getDescription() != "-") {
-//        this->ui->availableAfterLabel->show();
-        this->ui->availableAfterLabel->setText("Available After: " + this->course->getAvailableAfter().getDescription());
-//    } else {
-//        this->ui->availableAfterLabel->hide();
-//    }
+    this->ui->availableAfterLabel->setText("Available After: " + this->course->getAvailableAfter().getDescription());
 
-//    if (this->course->getNotAvailableAfter().getDescription() != "-") {
-//        this->ui->notAvailableAfterLabel->show();
-        this->ui->notAvailableAfterLabel->setText("Not Available After: " + this->course->getNotAvailableAfter().getDescription());
-//    } else {
-//        this->ui->notAvailableAfterLabel->hide();
-//    }
+    this->ui->notAvailableAfterLabel->setText("Not Available After: " + this->course->getNotAvailableAfter().getDescription());
 
-//    if (this->course->getPreviousCode() != "-") {
-//        this->ui->previousCodeLabel->show();
-        this->ui->previousCodeLabel->setText("Previous Code: " + this->course->getPreviousCode());
-//    } else {
-//        this->ui->previousCodeLabel->hide();
-//    }
+    this->ui->previousCodeLabel->setText("Previous Code: " + this->course->getPreviousCode());
 
     this->ui->offerInLabel->setText("Offer In: " + this->course->getOfferInDescription());
 }
 
-void CourseInfoWidget::treeWidgetItemClicked(CourseCode* courseCode) {
+void CourseInfoWidget::treeWidgetItemSelected(CourseCode* courseCode) {
 	AVLTree<CourseCode, Course* >* subjectTree = this->courses->find(courseCode->getSubject());
     if (subjectTree == nullptr) { return; }
 
