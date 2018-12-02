@@ -166,8 +166,8 @@ QGraphicsProxyWidget* MainWindow::addCourseLabel(QString name, qreal x, qreal y)
 		boundingRect.setBottom(-250);
 	}
 	if (boundingRect.width() < 400){
-		boundingRect.setTop(200);
-		boundingRect.setBottom(-200);
+		boundingRect.setLeft(200);
+		boundingRect.setRight(-200);
 	}
 	ui->graphicsView->fitInView(boundingRect, Qt::KeepAspectRatioByExpanding);
 	printedLabels.add(name, label);
@@ -303,7 +303,7 @@ int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth,
          addCourseLabel(courseCodes[i].description(), xOffset-((depth-childDepth)*X_OFFSET_PER_BLOCK), yOffset + (i - 0.5 * (courseCodes.size()-1) )*Y_OFFSET_PER_BLOCK);
          int tree_size = printPreRequisite(map, childDepth, course,
                                            xOffset-((depth-childDepth)*X_OFFSET_PER_BLOCK) ,  yOffset + (i - 0.5 * (courseCodes.size()-1) )*Y_OFFSET_PER_BLOCK);
-         connectCourseLabels(printedLabels.find(parent->getCourseCode().description()), printedLabels.find(courseCodes[i].description()), Qt::red);
+		 connectCourseLabels(printedLabels.find(parent->getCourseCode().description()), printedLabels.find(courseCodes[i].description()), Qt::blue);
 		 for (QGraphicsProxyWidget *label: childChildrenLabels){
 			 label->moveBy(0, tree_size * Y_OFFSET_PER_BLOCK/2);
          }
