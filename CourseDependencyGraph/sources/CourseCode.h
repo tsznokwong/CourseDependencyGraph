@@ -13,6 +13,8 @@ public:
     CourseCode() = default;
     CourseCode(QString subject, int code, QString extension = "");
 
+    // create dynamically allocated CourseCode with QString.
+    // return nullptr if parsing failed.
     static CourseCode* create(QString code);
 
     // getter
@@ -20,9 +22,10 @@ public:
     const int& getCode() const;
     const QString& getExtension() const;
 
+    // full description of course code
     QString description() const;
 
-    // operator overload
+    // comparison operator overload
     bool operator==(const CourseCode& rhs) const;
     bool operator>(const CourseCode& rhs) const;
     bool operator>=(const CourseCode& rhs) const;

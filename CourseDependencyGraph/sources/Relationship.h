@@ -21,6 +21,7 @@ private:
     std::vector<CourseCode> courseCodes;
 
     void updateDescription();
+
 public:
     Relationship(Type type, QString description);
 
@@ -31,6 +32,7 @@ public:
     const QString& getDescription() const;
     const std::vector<CourseCode>& getCourseCodes() const;
 
+    // Course relationship operation
     void addEdge(const CourseCode courseCode, Course* const course);
     void linkCourses(const AVLTree<QString, AVLTree<CourseCode, Course* >* > &courses);
 };

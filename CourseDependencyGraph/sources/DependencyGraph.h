@@ -39,15 +39,23 @@ public:
         int depth;
         std::vector<Node*> strongRoots;
         Direction direction;
+
     public:
         Node(DependencyGraph* parent, KeyType key, NodeType data, int depth = 0);
-        void update(int depth, Node* root);
+
+        // getter
         const KeyType& getKey() const;
         const NodeType& getNode() const;
         const int& getDepth() const;
         const std::vector<Node*>& getStrongRoots() const;
         const Direction& getDirection() const;
+
+        // setter
         void setDepth(int depth);
+
+        // Graph operation
+        void update(int depth, Node* root);
+
 		friend DependencyGraph;
     };
 
@@ -63,23 +71,31 @@ public:
         Direction direction;
         bool isStrong;
         int type;
+
     public:
         Edge(DependencyGraph* parent, Node *targetNode, Direction direction, int type, bool isStrong = false);
         Edge() = default;
         Edge(const Edge& edge) = default;
+
+        // getter
 		const Node* getTargetNode() const;
 		Node* getTargetNode();
         const Direction& getDirection() const;
         const bool& getIsStrong() const;
         const int& getType() const;
+
+        // setter
         void setIsStrong(bool isStrong);
+
 		friend DependencyGraph;
+
 		Edge& operator=(Edge&& rhs) = default;
         Edge& operator=(const Edge &rhs) = default;
     };
 
 private:
 
+    // Graph elements
     AVLTree<KeyType, std::vector<Edge> > adjacencyTree;
     AVLTree<KeyType, Node> nodeTree;
     Node focusNode;
@@ -98,17 +114,16 @@ public:
     void getNextEdgesFrom(const KeyType &key, std::vector<Edge> &edges) const;
     void getNodesInMap(AVLTree<int, std::vector<NodeType> > &map) const;
 
+    // capacity
     bool contains(const KeyType &key) const;
     unsigned int size() const;
     bool isEmpty() const;
+    void reset(KeyType key, NodeType node);
 
+    // Graph operations
     void updateNodes();
-	void reset(KeyType key, NodeType node);
-
     bool addNode(KeyType key, NodeType node);
     bool addEdge(KeyType fromKey, KeyType toKey, Direction direction, int type);
-
-
 
 };
 

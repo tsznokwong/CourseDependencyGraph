@@ -13,9 +13,11 @@ CSVLoader::Data* CSVLoader::load() {
 
     QTextStream stream { &csv };
 
+    // read field line
     QString fieldLine = stream.readLine();
     data->fields = fieldLine.split(",");
 
+    // read record lines
     while (!stream.atEnd()) {
         QString recordLine = stream.readLine();
         QStringList record = recordLine.split("\",\"");

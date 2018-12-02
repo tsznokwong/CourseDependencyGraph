@@ -36,7 +36,8 @@ void DependencyManager::loadCSV() {
         QString previousCode;
         std::vector<Semester> offerIn;
 
-        //SUBJECT,CODE,TITLE,CREDIT,ATTRIBUTE,EXCLUSION STR,PREREQUISITE STR,COREQUISITE STR,DESCRIPTION,COLIST WITH STR,VECTOR,PREVIOUS CODE,OFFER IN
+        // csv field line
+        // SUBJECT,CODE,TITLE,CREDIT,ATTRIBUTE,EXCLUSION STR,PREREQUISITE STR,COREQUISITE STR,DESCRIPTION,COLIST WITH STR,VECTOR,PREVIOUS CODE,OFFER IN
         for (int column = 0; column < record.count(); ++column) {
             if (courseData->fields[column] == "SUBJECT") {
                 subject = record[column];
@@ -97,6 +98,10 @@ void DependencyManager::loadCSV() {
     delete courseData;
 }
 
+/**
+ * @brief DependencyManager::linkCourses.
+ * Adding pointers to course relationship and reverse relationship of exclusion and prerequisites.
+ */
 void DependencyManager::linkCourses() {
     std::vector<QString> subjects;
     this->courses.toKeyVector(subjects);
@@ -104,6 +109,7 @@ void DependencyManager::linkCourses() {
         AVLTree<CourseCode, Course* >* subjectTree = this->courses.find(subject);
         std::vector<CourseCode> courseCodes;
         subjectTree->toKeyVector(courseCodes);
+
         for (CourseCode courseCode: courseCodes) {
             Course* course = subjectTree->find(courseCode);
             course->linkCourses(this->courses);

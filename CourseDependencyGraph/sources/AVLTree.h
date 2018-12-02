@@ -32,9 +32,11 @@ private:
 	AVLTree& rightSubtree();
 	const AVLTree& leftSubtree() const;
 	const AVLTree& rightSubtree() const;
+
 	int height() const;
 	int bfactor() const;
 
+    // AVLTree operation
 	void rotateL();
 	void rotateR();
 	void balance();
@@ -44,19 +46,26 @@ public:
 	AVLTree() = default;
 	~AVLTree();
 
+    // element access
+    const DataType& find(const KeyType& key) const;
+    DataType& find(const KeyType& key);
 	const AVLNode& max() const;
 	const AVLNode& min() const;
-	bool contains(const KeyType& key) const;
-	const DataType& find(const KeyType& key) const;
-    DataType& find(const KeyType& key);
+
+    // modifier
 	bool add(const KeyType& key, const DataType& data);
 	bool remove(const KeyType& key);
+
+    // capacity
+    bool contains(const KeyType& key) const;
 	unsigned int getSize();
 	bool empty() const;
+    void clear();
+
+    // descriptor
 	void toKeyVector(vector<KeyType>& vector) const;
 	void toVector(vector<DataType>& vector) const;
     void print(int depth = 0) const;
-	void clear();
 
 };
 

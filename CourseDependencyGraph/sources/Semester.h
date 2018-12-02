@@ -15,6 +15,7 @@ public:
     const QString& getYear() const;
     const QString& getSeason() const;
 
+    // full description of semester
     QString description() const;
 
 };

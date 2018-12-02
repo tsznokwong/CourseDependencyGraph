@@ -46,7 +46,7 @@ void MainWindow::setupTreeView(){
 	ui->treeWidget->setHeaderLabel("Courses");
 	ui->treeWidget->setColumnCount(1); // only one column is needed
     connect(ui->treeWidget, SIGNAL(itemSelectionChanged()),
-            this, SLOT(treeWidgetItemClicked()));
+            this, SLOT(treeWidgetItemSelected()));
 
 	vector<QString> subjectVector;
 	vector<CourseCode> courseVector;
@@ -198,7 +198,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event){
 	return false;
 }
 
-void MainWindow::treeWidgetItemClicked(){
+void MainWindow::treeWidgetItemSelected(){
 	clearCourseLabel();
 	QList<QTreeWidgetItem *> items = ui->treeWidget->selectedItems();
 	if (items.size() == 0) { return; }
@@ -210,21 +210,26 @@ void MainWindow::treeWidgetItemClicked(){
 	AVLTree<CourseCode, Course* >* subjectTree = dependencyManager->courses.find(subject->text(0));
 	if (subjectTree == nullptr) { return; }
 
+    // change course information
 	CourseCode *courseCode = CourseCode::create(subject->text(0) + item->text((0)));
-	this->courseInfoWidget->treeWidgetItemClicked(courseCode);
+    this->courseInfoWidget->treeWidgetItemSelected(courseCode);
 	selectedCourse = dependencyManager->findCourse(courseCode->description());
 	delete courseCode;
+
+    // construct dependency graph
 	addCourseLabel(selectedCourse->getCourseCode().description(), 0, 0);
 	if (dependencyGraph == nullptr){
 		dependencyGraph = new DependencyGraph<QString, Course*>(selectedCourse->getCourseCode().description(), selectedCourse);
 	}
-	else
+    else {
 		dependencyGraph->reset(selectedCourse->getCourseCode().description(), selectedCourse);
+    }
 	pushPreRequisite(selectedCourse);
 	AVLTree<int, vector<Course*>> map;
 	dependencyGraph->getNodesInMap(map);
 	printPreRequisite(map, 0, selectedCourse);
 
+    // debug log of constructed graph
     std::vector<int> depths;
     map.toKeyVector(depths);
     for (int depth: depths) {
@@ -257,8 +262,8 @@ int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth,
 
 
 	 vector<Course*> courses = parent->getPrerequisite().getEdges();
-	 int child_size = 0;
-	 for (int i = 0; i < courses.size(); ++i){
+     int child_size = 0;
+     for (unsigned int i = 0; i < courses.size(); ++i){
 		 int childDepth;
 		 for (int j = map.min().key; j < map.max().key; ++j){
 			 if (map.contains(j) && std::find(map.find(j).begin(), map.find(j).end(), courses[i])!= map.find(j).end()){

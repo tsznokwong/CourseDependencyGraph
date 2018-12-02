@@ -4,12 +4,17 @@
 //#include "sources/AVLTree.tpp"
 #include "sources/Course.h"
 
+/**
+ * @brief The DependencyManager class.
+ * The manager stores and manage relationship of courses.
+ */
 class DependencyManager {
 private:
 
 public:
-    AVLTree<QString, AVLTree<CourseCode, Course* >* > courses;
     DependencyManager();
+
+    AVLTree<QString, AVLTree<CourseCode, Course* >* > courses;
 
     void loadCSV();
     void linkCourses();
