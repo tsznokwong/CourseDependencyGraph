@@ -5,13 +5,32 @@
 #include <set>
 #include "AVLTree.tpp"
 
+/***
+ * The DependencyGraph is a directed unweighted graph.
+ * The graph has a focus node which must be specified during construction.
+ * The graph is implemented with abstract adjacency list and set of nodes with AVLTree.
+ * @Typename KeyType  the datatype for the Key object (must have implemented comparison operators)
+ * @Typename NodeType  the datatype for the data mode object (must have implemented assignment operator)
+ */
 template <typename KeyType, typename NodeType>
 class DependencyGraph {
 public:
+    /**
+     * @brief The Direction enum.
+     * PREVIOUS: Represent the initial node depends on the terminating node.
+     * NEXT: Represent the terminating node depends on the initial node.
+     */
     enum Direction {
         PREVIOUS, NEXT
     };
-
+    /**
+     * @brief The Node class is the vertex representation of the graph.
+     * Each node has a key to identify and storing data.
+     * Each node has a depth defined by the longest distance from focus node.
+     * i.e. negative represents the focus node depends on the node.
+     *      positive represents the node depends on the focus node.
+     * Each node points to its initial nodes in the graph which are roots contributed to largest magnitude of its depth.
+     */
     class Node {
     private:
         DependencyGraph* parent;
@@ -32,6 +51,11 @@ public:
 		friend DependencyGraph;
     };
 
+    /**
+     * @brief The Edge class is the edge representation of the graph.
+     * Each edge has a target node which is the terminating node of edge.
+     * The edge is strong if the edge contributed to largest magnitude of depth of the target node.
+     */
     class Edge {
     private:
         DependencyGraph* parent;

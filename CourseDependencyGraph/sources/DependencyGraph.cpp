@@ -201,13 +201,13 @@ bool DependencyGraph<NodePair>::addEdge(KeyType fromKey, KeyType toKey, Directio
     std::vector<Edge> &edges = this->adjacencyTree.find(fromKey);
     Node *fromNode = this->getNode(fromKey);
     Node *toNode = this->getNode(toKey);
-    if (toNode->depth == 0 || abs(toNode->depth) <= abs(fromNode->depth)) {
-        toNode->setDepth(fromNode->getDepth() + (direction == PREVIOUS ? -1 : 1));
-    }
+//    if (toNode->depth == 0 || abs(toNode->depth) <= abs(fromNode->depth)) {
+//        toNode->setDepth(fromNode->getDepth() + (direction == PREVIOUS ? -1 : 1));
+//    }
     Edge edge(this, toNode, direction, type);
     edges.push_back(edge);
-    this->updateNodes();
-
+//    this->updateNodes();
+    toNode->update(fromNode->getDepth() + (direction == PREVIOUS ? -1 : 1), fromNode);
     return true;
 }
 
