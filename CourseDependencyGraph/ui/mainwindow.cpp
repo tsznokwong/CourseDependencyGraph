@@ -260,7 +260,7 @@ void MainWindow::pushPreRequisite(CourseCode courseCode){
 	}
 }
 
-void MainWindow::pushAvailableAfter(Course* course){
+void MainWindow::pushAvailableAfter(CourseCode courseCode){
 	Course* course = this->dependencyManager->findCourse(courseCode.description());
     if (course == nullptr) { return; }
 
@@ -271,7 +271,7 @@ void MainWindow::pushAvailableAfter(Course* course){
             nextCourse = new Course { nextCourseCode };
         }
         this->dependencyGraph->addNode(nextCourseCode.description(), nextCourse);
-        this->dependencyGraph->addEdge(courseCode.description(), nextCourseCode.description(), dependencyGraph->DependencyGraph::Direction::PREVIOUS, Relationship::Type::PREREQUISITE);
+		this->dependencyGraph->addEdge(courseCode.description(), nextCourseCode.description(), dependencyGraph->DependencyGraph::Direction::NEXT, Relationship::Type::AVAILABLE_AFTER);
         pushAvailableAfter(nextCourseCode);
 	}
 }
@@ -312,7 +312,7 @@ int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth,
 int MainWindow::printAvailableAfter(AVLTree<int, vector<Course*>> &map, int depth, Course* parent,
 								   qreal xOffset, qreal yOffset){
 	int maxDepth = map.max().key;
-	 qreal Y_OFFSET_PER_BLOCK = 25*pow(2,maxDepth-depth);
+	 qreal Y_OFFSET_PER_BLOCK = 75;
 	 static int X_OFFSET_PER_BLOCK = 200;
 	 //if (!map.contains(depth)) return 0;
 
