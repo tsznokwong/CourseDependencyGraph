@@ -217,7 +217,7 @@ void MainWindow::treeWidgetItemSelected(){
 	delete courseCode;
 
     // construct dependency graph
-	addCourseLabel(selectedCourse->getCourseCode().description(), 0, 0);
+	addCourseLabel(selectedCourse->getCourseCode().description(), 0, 0)->widget()->setStyleSheet(".QLineEdit { background-color : green }");
 	if (dependencyGraph == nullptr){
 		dependencyGraph = new DependencyGraph<QString, Course*>(selectedCourse->getCourseCode().description(), selectedCourse);
 	}
@@ -228,6 +228,8 @@ void MainWindow::treeWidgetItemSelected(){
     pushAvailableAfter(selectedCourse->getCourseCode());
 	AVLTree<int, vector<Course*>> map;
 	dependencyGraph->getNodesInMap(map);
+	printExclusion(selectedCourse);
+	printCoRequisite(selectedCourse);
 	printPreRequisite(map, 0, selectedCourse);
 	printAvailableAfter(map, 0, selectedCourse);
 
@@ -340,6 +342,28 @@ int MainWindow::printAvailableAfter(AVLTree<int, vector<Course*>> &map, int dept
 	 }
      return child_size > courseCodes.size()?child_size: courseCodes.size();
  }
+
+int MainWindow::printCoRequisite(Course* parent){
+	int y_offset = 75;
+	qreal Y_OFFSET_PER_BLOCK = 75;
+	for (Course* course: parent->getCorequisite().getEdges()){
+		connectCourseLabels(
+					addCourseLabel(course->getCourseCode().description(), 0, y_offset += Y_OFFSET_PER_BLOCK),
+					printedLabels.find(parent->getCourseCode().description()), Qt::black);
+
+	}
+}
+
+int MainWindow::printExclusion(Course* parent){
+	int y_offset = -75;
+	qreal Y_OFFSET_PER_BLOCK = -75;
+	for (Course* course: parent->getExclusion().getEdges()){
+		connectCourseLabels(
+					addCourseLabel(course->getCourseCode().description(), 0, y_offset += Y_OFFSET_PER_BLOCK),
+					printedLabels.find(parent->getCourseCode().description()), Qt::gray);
+
+	}
+}
 
 int MainWindow::getPreRequisiteTreeSize(AVLTree<int, vector<Course*>> &map, int depth, Course* parent){
 	if (!map.contains(depth)) return 0;

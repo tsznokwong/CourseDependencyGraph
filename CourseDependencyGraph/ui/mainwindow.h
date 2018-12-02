@@ -56,6 +56,9 @@ private:
     void pushAvailableAfter(CourseCode course);
 	int printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth = 0, Course* parent = nullptr, qreal xOffset = 0, qreal yOffset = 0);
 	int printAvailableAfter(AVLTree<int, vector<Course*>> &map, int depth = 0, Course* parent = nullptr, qreal xOffset = 0, qreal yOffset = 0);
+	int printCoRequisite(Course* parent);
+	int printExclusion(Course* parent);
+
 	int getPreRequisiteTreeSize(AVLTree<int, vector<Course*>> &map, int depth, Course* parent);
 
 private slots:
