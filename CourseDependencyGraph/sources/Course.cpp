@@ -30,6 +30,8 @@ Course::Course(CourseCode courseCode,
 
 }
 
+Course::Course(CourseCode courseCode): Course(courseCode, "", -1, "", "", "", "", "", "", "", "", std::vector<Semester>()){}
+
 const CourseCode& Course::getCourseCode() const { return this->courseCode; }
 const QString& Course::getTitle() const { return this->title; }
 const int& Course::getCredit() const { return this->credit; }
