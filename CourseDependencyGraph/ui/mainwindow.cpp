@@ -233,6 +233,8 @@ void MainWindow::treeWidgetItemSelected(){
 	printPreRequisite(map, 0, selectedCourse);
 	printAvailableAfter(map, 0, selectedCourse);
 
+	ui->graphicsView->centerOn(0, 0);
+
     // debug log of constructed graph
     std::vector<int> depths;
     map.toKeyVector(depths);
