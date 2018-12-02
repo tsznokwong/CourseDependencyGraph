@@ -53,7 +53,9 @@ private:
 	void connectCourseLabels(QGraphicsProxyWidget* from , QGraphicsProxyWidget* to, Qt::GlobalColor color);
 	void clearCourseLabel();
     void pushPreRequisite(CourseCode course);
+    void pushAvailableAfter(CourseCode course);
 	int printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth = 0, Course* parent = nullptr, qreal xOffset = 0, qreal yOffset = 0);
+	int printAvailableAfter(AVLTree<int, vector<Course*>> &map, int depth = 0, Course* parent = nullptr, qreal xOffset = 0, qreal yOffset = 0);
 	int getPreRequisiteTreeSize(AVLTree<int, vector<Course*>> &map, int depth, Course* parent);
 
 private slots:
