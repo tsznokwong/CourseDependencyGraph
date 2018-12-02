@@ -45,6 +45,7 @@ public:
            QString vector,
            QString previousCode,
            std::vector<Semester> offerIn);
+    Course(CourseCode courseCode);
 
     // getter
     const CourseCode& getCourseCode() const;

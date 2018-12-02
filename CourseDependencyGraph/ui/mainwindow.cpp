@@ -224,7 +224,7 @@ void MainWindow::treeWidgetItemSelected(){
     else {
 		dependencyGraph->reset(selectedCourse->getCourseCode().description(), selectedCourse);
     }
-	pushPreRequisite(selectedCourse);
+    pushPreRequisite(selectedCourse->getCourseCode());
 	AVLTree<int, vector<Course*>> map;
 	dependencyGraph->getNodesInMap(map);
 	printPreRequisite(map, 0, selectedCourse);
@@ -242,11 +242,19 @@ void MainWindow::treeWidgetItemSelected(){
 	return;
 }
 
-void MainWindow::pushPreRequisite(Course* course){
-	for (Course* nextCourse: course->getPrerequisite().getEdges()){
-		dependencyGraph->addNode(nextCourse->getCourseCode().description(), nextCourse);
-        dependencyGraph->addEdge(course->getCourseCode().description(), nextCourse->getCourseCode().description(), dependencyGraph->DependencyGraph::Direction::PREVIOUS, Relationship::Type::PREREQUISITE);
-		pushPreRequisite(nextCourse);
+void MainWindow::pushPreRequisite(CourseCode courseCode){
+    Course* course = this->dependencyManager->findCourse(courseCode.description());
+    if (course == nullptr) { return; }
+
+    for (CourseCode nextCourseCode: course->getPrerequisite().getCourseCodes()){
+
+        Course* nextCourse = this->dependencyManager->findCourse(nextCourseCode.description());
+        if (nextCourse == nullptr) {
+            nextCourse = new Course { nextCourseCode };
+        }
+        this->dependencyGraph->addNode(nextCourseCode.description(), nextCourse);
+        this->dependencyGraph->addEdge(courseCode.description(), nextCourseCode.description(), dependencyGraph->DependencyGraph::Direction::PREVIOUS, Relationship::Type::PREREQUISITE);
+        pushPreRequisite(nextCourseCode);
 	}
 }
 
@@ -254,6 +262,7 @@ void MainWindow::pushPreRequisite(Course* course){
 
 int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth, Course* parent,
 								   qreal xOffset, qreal yOffset){
+    if (parent == nullptr) { return 1; }
 	int maxDepth = map.min().key;
 	 qreal Y_OFFSET_PER_BLOCK = 25*pow(2,depth-maxDepth);
 	 static int X_OFFSET_PER_BLOCK = 200;
@@ -261,26 +270,27 @@ int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth,
 
 
 
-	 vector<Course*> courses = parent->getPrerequisite().getEdges();
+     vector<CourseCode> courseCodes = parent->getPrerequisite().getCourseCodes();
      int child_size = 0;
-     for (unsigned int i = 0; i < courses.size(); ++i){
-		 int childDepth;
-		 for (int j = map.min().key; j < map.max().key; ++j){
-			 if (map.contains(j) && std::find(map.find(j).begin(), map.find(j).end(), courses[i])!= map.find(j).end()){
+     for (unsigned int i = 0; i < courseCodes.size(); ++i){
+         int childDepth;
+         Course* course = this->dependencyGraph->getNode(courseCodes[i].description())->getNode();
+         for (int j = map.min().key; j < map.max().key; ++j){
+             if (map.contains(j) && std::find(map.find(j).begin(), map.find(j).end(), course)!= map.find(j).end()){
 				childDepth = j;
-				qDebug() << courses[i]->getCourseCode().description() << " " << childDepth;
+                qDebug() << courseCodes[i].description() << " " << childDepth;
 			 }
 		 }
 		 vector<QGraphicsProxyWidget* > childChildrenLabels;
-		 addCourseLabel(courses[i]->getCourseCode().description(), xOffset-((depth-childDepth)*X_OFFSET_PER_BLOCK), yOffset + (i - 0.5 * (courses.size()-1) )*Y_OFFSET_PER_BLOCK);
-		 int tree_size = printPreRequisite(map, childDepth, courses[i],
-										   xOffset-((depth-childDepth)*X_OFFSET_PER_BLOCK) ,  yOffset + (i - 0.5 * (courses.size()-1) )*Y_OFFSET_PER_BLOCK);
-		 connectCourseLabels(printedLabels.find(parent->getCourseCode().description()), printedLabels.find(courses[i]->getCourseCode().description()), Qt::red);
+         addCourseLabel(courseCodes[i].description(), xOffset-((depth-childDepth)*X_OFFSET_PER_BLOCK), yOffset + (i - 0.5 * (courseCodes.size()-1) )*Y_OFFSET_PER_BLOCK);
+         int tree_size = printPreRequisite(map, childDepth, course,
+                                           xOffset-((depth-childDepth)*X_OFFSET_PER_BLOCK) ,  yOffset + (i - 0.5 * (courseCodes.size()-1) )*Y_OFFSET_PER_BLOCK);
+         connectCourseLabels(printedLabels.find(parent->getCourseCode().description()), printedLabels.find(courseCodes[i].description()), Qt::red);
 		 for (QGraphicsProxyWidget *label: childChildrenLabels){
 			 label->moveBy(0, tree_size * Y_OFFSET_PER_BLOCK/2);
-		 }
+         }
 	 }
-	 return child_size > courses.size()?child_size: courses.size();
+     return child_size > courseCodes.size()?child_size: courseCodes.size();
  }
 int MainWindow::getPreRequisiteTreeSize(AVLTree<int, vector<Course*>> &map, int depth, Course* parent){
 	if (!map.contains(depth)) return 0;

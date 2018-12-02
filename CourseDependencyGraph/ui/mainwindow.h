@@ -52,7 +52,7 @@ private:
 	QGraphicsProxyWidget* addCourseLabel(QString name, qreal x, qreal y);
 	void connectCourseLabels(QGraphicsProxyWidget* from , QGraphicsProxyWidget* to, Qt::GlobalColor color);
 	void clearCourseLabel();
-	void pushPreRequisite(Course* course);
+    void pushPreRequisite(CourseCode course);
 	int printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth = 0, Course* parent = nullptr, qreal xOffset = 0, qreal yOffset = 0);
 	int getPreRequisiteTreeSize(AVLTree<int, vector<Course*>> &map, int depth, Course* parent);
 
