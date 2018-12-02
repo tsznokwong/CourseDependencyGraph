@@ -189,7 +189,7 @@ void MainWindow::clearCourseLabel(){
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event){
-    if (event->type() == QEvent::FocusIn){
+    if (event->type() == QEvent::GraphicsSceneMousePress){
 		// parsing courselabel from QObject
 		QString name = static_cast<CourseLabel*>(static_cast<QGraphicsProxyWidget*>(obj)->widget())->getName();
 		ui->searchBar->setText(name);
