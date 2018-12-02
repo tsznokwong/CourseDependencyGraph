@@ -273,9 +273,9 @@ int MainWindow::printPreRequisite(AVLTree<int, vector<Course*>> &map, int depth,
      vector<CourseCode> courseCodes = parent->getPrerequisite().getCourseCodes();
      int child_size = 0;
      for (unsigned int i = 0; i < courseCodes.size(); ++i){
-		 int childDepth;
-         Course* course = this->dependencyManager->findCourse(courseCodes[i].description());
-         for (int j = map.min().key; j < map.max().key && course != nullptr; ++j){
+         int childDepth;
+         Course* course = this->dependencyGraph->getNode(courseCodes[i].description())->getNode();
+         for (int j = map.min().key; j < map.max().key; ++j){
              if (map.contains(j) && std::find(map.find(j).begin(), map.find(j).end(), course)!= map.find(j).end()){
 				childDepth = j;
                 qDebug() << courseCodes[i].description() << " " << childDepth;

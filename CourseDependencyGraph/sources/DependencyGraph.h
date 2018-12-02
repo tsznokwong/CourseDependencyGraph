@@ -101,13 +101,13 @@ private:
     Node focusNode;
 
     void updateIsStrongEdge(const KeyType &fromKey, const KeyType &toKey, bool isStrong);
-    Node* getNode(const KeyType &key);
 
 public:
     DependencyGraph() = delete;
     DependencyGraph(KeyType key, NodeType node);
 
     // getter
+    Node* getNode(const KeyType &key);
     const AVLTree<KeyType, Node>& getNodes() const;
     void getEdgesFrom(const KeyType &key, std::vector<Edge> &edges) const;
     void getPreviousEdgesFrom(const KeyType &key, std::vector<Edge> &edges) const;
